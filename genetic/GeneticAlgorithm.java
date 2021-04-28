@@ -170,11 +170,15 @@ public class GeneticAlgorithm {
                 // Create blank offspring chromosome
                 int offspringChromosome[] = new int[parent1.getChromosomeLength()];
                 Arrays.fill(offspringChromosome, -1);
+
+                /**
+                 * First part of the chromosome using ordered crossover
+                 */
                 Individual offspring = new Individual(offspringChromosome);
 
                 // Get subset of parent chromosomes
-                int substrPos1 = (int) (Math.random() * parent1.getChromosomeLength());
-                int substrPos2 = (int) (Math.random() * parent1.getChromosomeLength());
+                int substrPos1 = (int) (Math.random() * population.getNumberDestinations());
+                int substrPos2 = (int) (Math.random() * population.getNumberDestinations());
 
                 // make the smaller the start and the larger the end
                 final int startSubstr = Math.min(substrPos1, substrPos2);
@@ -186,16 +190,16 @@ public class GeneticAlgorithm {
                 }
 
                 // Loop through parent2's city tour
-                for (int i = 0; i < parent2.getChromosomeLength(); i++) {
+                for (int i = 0; i < population.getNumberDestinations(); i++) {
                     int parent2Gene = i + endSubstr;
-                    if (parent2Gene >= parent2.getChromosomeLength()) {
-                        parent2Gene -= parent2.getChromosomeLength();
+                    if (parent2Gene >= population.getNumberDestinations()) {
+                        parent2Gene -= population.getNumberDestinations();
                     }
 
                     // If offspring doesn't have the city add it
                     if (offspring.containsGene(parent2.getGene(parent2Gene)) == false) {
                         // Loop to find a spare position in the child's tour
-                        for (int ii = 0; ii < offspring.getChromosomeLength(); ii++) {
+                        for (int ii = 0; ii < population.getNumberDestinations(); ii++) {
                             // Spare position found, add city
                             if (offspring.getGene(ii) == -1) {
                                 offspring.setGene(ii, parent2.getGene(parent2Gene));
@@ -203,6 +207,22 @@ public class GeneticAlgorithm {
                             }
                         }
                     }
+                }
+
+                /**
+                 * Second part of the chromosome using single point asexual crossover
+                 */
+                int n = population.getNumberDestinations();
+                int m = population.getNumberSalesmen();
+
+                int crossPoint = (int) Math.random()*m;
+
+                for(int i = n, j=crossPoint; i < crossPoint; i++,j++) {
+                    offspring.setGene(i, parent1.getGene(j));
+                }
+                
+                for(int i = n + crossPoint, j=n; i < m+n; i++, j++) {
+                    offspring.setGene(i, parent1.getGene(j));
                 }
 
                 // Add child

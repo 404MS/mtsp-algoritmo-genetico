@@ -7,6 +7,8 @@ import java.util.Random;
 public class Population {
 	private Individual population[];
 	private double populationFitness = -1;
+	private int n;
+	private int m;
 
 	/**
 	 * Initializes blank population of individuals
@@ -40,6 +42,9 @@ public class Population {
 			// Add individual to population
 			this.population[i] = individual;
 		}
+
+		this.n = numDestinations;
+		this.m = numSalesmen;
 	}
 
 	/**
@@ -138,6 +143,24 @@ public class Population {
 			population[index] = population[i];
 			population[i] = a;
 		}
+	}
+
+	/**
+	 * Get the number of salesmen
+	 * 
+	 * @return int
+	 */
+	public int getNumberSalesmen(){
+		return this.m;
+	}
+
+	/**
+	 * Get the number of destinations
+	 * 
+	 * @return int
+	 */
+	public int getNumberDestinations(){
+		return this.n;
 	}
 
 }
