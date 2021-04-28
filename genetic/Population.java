@@ -1,8 +1,11 @@
 package genetic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
+
+import model.Worker;
 
 public class Population {
 	private Individual population[];
@@ -30,15 +33,17 @@ public class Population {
 	 *            The length of the first part of the chromosome
 	 * @param numSalesmen
 	 *            The length of the second part of the chromosome
+	 * @param workers
+	 *            Array of workers to check capacity of each one to generate valid individual
 	 */
-	public Population(int populationSize, int numDestinations, int numSalesmen) {
+	public Population(int populationSize, int numDestinations, int numSalesmen, ArrayList<Worker> workers) {
 		// Initial population
 		this.population = new Individual[populationSize];
 
 		// Loop over population size
 		for (int i = 0; i < populationSize; i++) {
 			// Create individual
-			Individual individual = new Individual(numDestinations, numSalesmen);
+			Individual individual = new Individual(numDestinations, numSalesmen, workers);
 			// Add individual to population
 			this.population[i] = individual;
 		}

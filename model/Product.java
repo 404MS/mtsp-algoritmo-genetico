@@ -14,6 +14,11 @@ public class Product {
 	private int y;
 	private Date deadline;
 
+	public Product (Product p){
+		this.x = p.getX();
+		this.y = p.getY();
+		this.deadline = p.getDeadline();
+	}
 
 	public Product(int x, int y) {
 		this.x = x;

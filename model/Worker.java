@@ -22,11 +22,24 @@ public class Worker {
 	 * @param c
 	 *            capacity in number of products
 	 * @param s
-	 *            average speed
+	 *            average speed in km/h
+   * @param ck
+	 *            cost per km
 	 */
-  public Worker(int c, int s) {
+  public Worker(int c, int s, int ck) {
     this.capacity = c;
     this.speed = s;
+    this.costPerKm = ck;
+  }
+
+  public Worker(Worker w){
+    this.capacity = w.getCapacity();
+    this.speed = w.getSpeed();
+    this.costPerKm = w.getCostPerKm();
+  }
+
+  public int getCostPerKm() {
+    return this.costPerKm;
   }
 
   public int getCapacity() {
@@ -43,5 +56,14 @@ public class Worker {
 
   public void assignOrders(ArrayList<Product> orders) {
     this.assignedOrders = orders;
+  }
+
+  public void assignOrder(Product order) {
+    this.assignedOrders.add(order);
+  }
+
+  public void popOrder(Product order){
+    if(this.assignedOrders.isEmpty()) return;
+    this.assignedOrders.remove(0);
   }
 }

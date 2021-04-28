@@ -1,9 +1,11 @@
 package genetic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 import model.Product;
+import model.Worker;
 
 public class GeneticAlgorithm {
 	
@@ -29,11 +31,12 @@ public class GeneticAlgorithm {
      * 
      * @param numDestinations The number of destinations
      * @param numSalesmen The number of salesmen
+     * @param workers Array of workers to check capacities and generate valid population
      * @return population The initial population generated
      */
-    public Population initPopulation(int numDestinations, int numSalesmen){
+    public Population initPopulation(int numDestinations, int numSalesmen, ArrayList<Worker> workers){
         // Initialize population
-        Population population = new Population(this.populationSize, numDestinations, numSalesmen);
+        Population population = new Population(this.populationSize, numDestinations, numSalesmen, workers);
         return population;
     }
     
@@ -60,40 +63,24 @@ public class GeneticAlgorithm {
 	 * 
 	 * @param individual
 	 *            the individual to evaluate
-	 * @param orders
-	 *            the cities being referenced
+	 * @param products
+	 *            the destinations being referenced
+     * @param workers
+	 *            the workers being referenced
+     * @param depot
+	 *            the depot (only for its coordinates)
 	 * @return double The fitness value for individual
 	 */
-    public double calcFitness(Individual individual, Product orders[], Product depot){
+    public double calcFitness(Individual individual, ArrayList<Product> products, ArrayList<Worker> workers, Product depot){
         // Get fitness
-        Route routes[] = new Route[individual.getChromosome().length - orders.length];
 
-        double totalDistance = 0;
+        Routes routes = new Routes(individual, products, workers, depot);
 
-        // Loop the individual's chromosome to generate m Routes
-        int chromosome[] =  individual.getChromosome();
-
-        for (int i = orders.length, j=0, k=0; i < chromosome.length; i++, j++){
-            if(chromosome[i] == 0) {
-                routes[j] = new Route(depot.getX(), depot.getY());
-            }
-            else{
-                int aux[] = new int[chromosome[i]];
-                for(int x=0; x<chromosome[i]; x++){
-                    aux[x] = chromosome[k];
-                    k++;
-                }
-                routes[j] = new Route(aux, orders, depot.getX(), depot.getY());
-                totalDistance += routes[j].getDistance();
-            }
-
-        }
-
-        double fitness = 1 / totalDistance;
-                
+        double fitness = 1 / routes.getCost();
+            
         // Store fitness
         individual.setFitness(fitness);
-        
+
         return fitness;
     }
 
@@ -103,12 +90,12 @@ public class GeneticAlgorithm {
      * @param population the population to evaluate
      * @param cities the cities being referenced
      */
-    public void evalPopulation(Population population, Product orders[], Product depot){
+    public void evalPopulation(Population population, ArrayList<Product> products, ArrayList<Worker> workers, Product depot){
         double populationFitness = 0;
         
         // Loop over population evaluating individuals and summing population fitness
         for (Individual individual : population.getIndividuals()) {
-            populationFitness += this.calcFitness(individual, orders, depot);
+            populationFitness += this.calcFitness(individual, products, workers, depot);
         }
         
         double avgFitness = populationFitness / population.size();

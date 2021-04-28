@@ -1,6 +1,9 @@
 package genetic;
 
+import java.util.ArrayList;
+
 import model.Product;
+import model.Worker;
 /**
  * The main Evaluation class for the TSP. It's pretty simple -- given an
  * Individual (ie, a chromosome) and a list of canonical cities, calculate the
@@ -13,47 +16,71 @@ import model.Product;
 
 public class Route {
 	private Product route[];
-	private double distance = 0;
 	private Product depot;
-	private boolean empty;
+	private Worker worker;
+
+	private double distance;
+	private double cost;
+	private double time;
 
 	/**
 	 * Initialize Route
 	 * 
-	 * @param individual
-	 *            A GA individual
+	 * @param destinationsIndex
+	 *            Array of destinations index where the worker will go
 	 * @param destinations
-	 *            The cities referenced
-	 * @param x
-	 *            X coordinate of the depot
-	 * @param y
-	 *            Y coordinate of the depot
+	 *            The destinations referenced
+	 * @param worker
+	 * 						The worker assigned to the route
+	 * @param depot
+	 * 						The origin point of the worker
+	 * 
 	 */
-	public Route(int[] destinationsIndex, Product destinations[], int x, int y) {
+	public Route(int[] destinationsIndex, ArrayList<Product> destinations, Worker worker, Product depot) {
+
+		this.distance = 0;
+		this.cost = 0;
+		this.time = 0;
 
 		// Create route
-		if(destinationsIndex.length <= destinations.length){
+		if(destinationsIndex != null) {
 			this.route = new Product[destinationsIndex.length];
+			
+			for (int i = 0; i < route.length; i++) {
+				this.route[i] = destinations.get(destinationsIndex[i]);
+			}
 		}
 		else {
-			this.route = new Product[destinations.length];
+			this.route = null;
 		}
-		
-		for (int i = 0; i < route.length; i++) {
-			this.route[i] = destinations[destinationsIndex[i]];
-		}
+
 		// Assign coordinates
-		this.depot = new Product(x, y);
-		this.empty = false;
+		this.depot = new Product(depot);
+		this.worker = new Worker(worker);
 	}
+	/**
+	 * Initialize Blank Route
+	 * 
+	 * @param destinationsIndex
+	 *            Array of destinations index where the worker will go
+	 * @param destinations
+	 *            The destinations referenced
+	 * @param worker
+	 * 						The worker assigned to the route
+	 * @param depot
+	 * 						The origin point of the worker
+	 * 
+	 */
+	public Route(ArrayList<Product> destinations, Worker worker, Product depot) {
 
-	public Route(int x, int y) {
-		this.depot = new Product(x,y);
-		this.empty = true;
-	}
+		this.distance = 0;
+		this.cost = 0;
+		this.time = 0;
+		this.route = null;
 
-	public boolean isEmpty() {
-		return this.empty;
+		// Assign coordinates
+		this.depot = new Product(depot);
+		this.worker = new Worker(worker);
 	}
 
 	/**
@@ -65,7 +92,7 @@ public class Route {
 		if (this.distance > 0) {
 			return this.distance;
 		}
-		if (this.empty) {
+		if (this.route == null) {
 			return 0;
 		}
 
@@ -77,16 +104,52 @@ public class Route {
 			totalDistance += this.route[i].distanceFrom(this.route[i + 1]);
 		}
 
-		totalDistance += this.route[this.route.length - 1].distanceFrom(this.depot);
 		this.distance = totalDistance;
 
 		return totalDistance;
 	}
 
-	public void printRoute () {
-		System.out.println("Route:");
-		for(int i=0; i < this.route.length; i++) {
-			System.out.println("    " + this.route[i].getX() + " " + this.route[i].getY());
+	/**
+	 * Get route cost
+	 * 
+	 * @return cost The route's total cost
+	 */
+	public double getCost() {
+		if (this.cost > 0) {
+			return this.cost;
 		}
+		if (this.route == null) {
+			return 0;
+		}
+
+		double totalCost = this.getDistance() * worker.getCostPerKm();
+
+		this.cost = totalCost;
+
+		return totalCost;
+	}
+
+	/**
+	 * Get route time
+	 * 
+	 * @return time The route's total duration
+	 */
+	public double getTime() {
+		if (this.time > 0) {
+			return this.time;
+		}
+		if (this.route == null) {
+			return 0;
+		}
+
+		double totalTime = this.getDistance() / worker.getSpeed();
+
+		this.time = totalTime;
+
+		return totalTime;
+	}
+
+	public void printRoute () {
+
 	}
 }

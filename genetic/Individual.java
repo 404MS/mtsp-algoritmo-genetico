@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.Worker;
+
 public class Individual {
 	
 	/**
@@ -31,13 +33,15 @@ public class Individual {
 	 * 
 	 * @param numDestinations
 	 *            The number of destinations
-	 * @param numSalesmen
-	 * 						The number of salesmen
+	 * @param numWorkers
+	 * 						The number of workers/salesmen
+	 * @param workers
+	 * 						Array of workers associated with individual
 	 */
-	public Individual(int numDestinations, int numSalesmen) {
+	public Individual(int numDestinations, int numWorkers, ArrayList<Worker> workers) {
 		// Create random individual
 		int[] individual;
-		individual = new int[numDestinations + numSalesmen];
+		individual = new int[numDestinations + numWorkers];
 		
 		/**
 		 * In this case, we can no longer simply pick 0s and 1s -- we need to
@@ -45,6 +49,7 @@ public class Individual {
 		 * 
 		 * First, generate random permutation of destinations
 		 * Then, random valid sequence of integers with total sum n
+		 * where each one is less or equal to its corresponding worker's capacity
 		 */
 
 		List <Integer> destinations = new ArrayList<Integer>();
@@ -54,19 +59,31 @@ public class Individual {
 		java.util.Collections.shuffle(destinations);
 
 		List <Integer> salesmanToDestinations = new ArrayList<Integer>();
-		int maxAvailable = numDestinations;
-		int sumPrev = 0, aux = 0;
-		for(int i = 0; i < numSalesmen; i++) {
+		for(int i = 0; i < numWorkers; i++) {
+			salesmanToDestinations.add(0);
+		}
+
+		int randomWorker;
+
+		for(int i=0; i < numDestinations; i++){
 			Random r = new Random();
-			aux = r.nextInt((maxAvailable-sumPrev) - 0 + 1) + 0;
-			sumPrev += aux;
-			salesmanToDestinations.add(aux);
+			randomWorker = r.nextInt(numWorkers);
+			while(true){
+				if(salesmanToDestinations.get(randomWorker) == workers.get(randomWorker).getCapacity()) {
+					if(randomWorker == numWorkers-1)	randomWorker = -1;
+					randomWorker++;
+				}
+				else {
+					break;
+				}
+			}
+			salesmanToDestinations.set(randomWorker, salesmanToDestinations.get(randomWorker) + 1);
 		}
 		
 		for (int gene = 0; gene < numDestinations; gene++) {
 			individual[gene] = destinations.get(gene);
 		}
-		for (int gene = numDestinations, i = 0; gene < numSalesmen + numDestinations; gene++, i++) {
+		for (int gene = numDestinations, i = 0; gene < numWorkers + numDestinations; gene++, i++) {
 			individual[gene] = salesmanToDestinations.get(i);
 		}
 		
