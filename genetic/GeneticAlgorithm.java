@@ -251,20 +251,46 @@ public class GeneticAlgorithm {
         // Initialize new population
         Population newPopulation = new Population(this.populationSize);
         
+        int n = population.getNumberDestinations();
+        int m = population.getNumberSalesmen();
+
         // Loop over current population by fitness
         for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
             Individual individual = population.getFittest(populationIndex);
 
             // Skip mutation if this is an elite individual
             if (populationIndex >= this.elitismCount) {   
-            	// System.out.println("Mutating population member "+populationIndex);
+            	                
+                /**
+                 * Apply mutation to first part of the chromosome
+                 */
+
                 // Loop over individual's genes
-                for (int geneIndex = 0; geneIndex < individual.getChromosomeLength(); geneIndex++) {   
-                	// System.out.println("\tGene index "+geneIndex);
+                for (int geneIndex = 0; geneIndex < n; geneIndex++) {   
+                	
                     // Does this gene need mutation?
                     if (this.mutationRate > Math.random()) {
                         // Get new gene position
-                        int newGenePos = (int) (Math.random() * individual.getChromosomeLength());
+                        int newGenePos = (int) (Math.random() * n);
+                        // Get genes to swap
+                        int gene1 = individual.getGene(newGenePos);
+                        int gene2 = individual.getGene(geneIndex);
+                        // Swap genes
+                        individual.setGene(geneIndex, gene1);
+                        individual.setGene(newGenePos, gene2);
+                    }
+                }
+
+                /**
+                 * Apply mutation to second part of the chromosome
+                 */
+                // Loop over individual's genes
+                for (int geneIndex = n; geneIndex < n+m; geneIndex++) {   
+                	
+                    // Does this gene need mutation?
+                    if (this.mutationRate > Math.random()) {
+                        // Get new gene position
+                        int newGenePos = (int) (n + (Math.random()*(m+n)));
                         // Get genes to swap
                         int gene1 = individual.getGene(newGenePos);
                         int gene2 = individual.getGene(geneIndex);
