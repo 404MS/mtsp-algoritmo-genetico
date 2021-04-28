@@ -47,6 +47,14 @@ public class Population {
 		this.m = numSalesmen;
 	}
 
+	public void setNumDestinations(int numDestinations) {
+		this.n = numDestinations;
+	}
+
+	public void setNumSalesmen(int numSalesmen) {
+		this.m = numSalesmen;
+	}
+
 	/**
 	 * Get individuals from the population
 	 * 
@@ -115,8 +123,9 @@ public class Population {
 	 * @param offset
 	 * @return individual
 	 */
-	public Individual setIndividual(int offset, Individual individual) {
-		return population[offset] = individual;
+	public void setIndividual(int offset, Individual individual) {
+
+		population[offset] = new Individual(individual.getChromosome());
 	}
 
 	/**

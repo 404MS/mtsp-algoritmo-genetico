@@ -14,6 +14,7 @@ public class Worker {
   private ArrayList<Product> assignedOrders;
   private int capacity;
   private int speed;
+  private int costPerKm;
 
 	/**
 	 * Initialize Worker

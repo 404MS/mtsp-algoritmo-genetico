@@ -15,6 +15,7 @@ public class Route {
 	private Product route[];
 	private double distance = 0;
 	private Product depot;
+	private boolean empty;
 
 	/**
 	 * Initialize Route
@@ -43,6 +44,16 @@ public class Route {
 		}
 		// Assign coordinates
 		this.depot = new Product(x, y);
+		this.empty = false;
+	}
+
+	public Route(int x, int y) {
+		this.depot = new Product(x,y);
+		this.empty = true;
+	}
+
+	public boolean isEmpty() {
+		return this.empty;
 	}
 
 	/**
@@ -53,6 +64,9 @@ public class Route {
 	public double getDistance() {
 		if (this.distance > 0) {
 			return this.distance;
+		}
+		if (this.empty) {
+			return 0;
 		}
 
 		// Loop over cities in route and calculate route distance

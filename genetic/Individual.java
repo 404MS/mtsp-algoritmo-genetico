@@ -23,7 +23,7 @@ public class Individual {
 	 */
 	public Individual(int[] chromosome) {
 		// Create individualchromosome
-		this.chromosome = chromosome;
+		this.chromosome = chromosome.clone();
 	}
 
 	/**
@@ -150,8 +150,8 @@ public class Individual {
 	 * @param gene
 	 * @return
 	 */
-	public boolean containsGene(int gene) {
-		for (int i = 0; i < this.chromosome.length; i++) {
+	public boolean containsDestination(int gene, int n) {
+		for (int i = 0; i < n; i++) {
 			if (this.chromosome[i] == gene) {
 				return true;
 			}

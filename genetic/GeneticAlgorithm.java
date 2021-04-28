@@ -1,6 +1,7 @@
 package genetic;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import model.Product;
 
@@ -71,14 +72,21 @@ public class GeneticAlgorithm {
 
         // Loop the individual's chromosome to generate m Routes
         int chromosome[] =  individual.getChromosome();
+
         for (int i = orders.length, j=0, k=0; i < chromosome.length; i++, j++){
-            int aux[] = new int[chromosome[i]];
-            for(int x=0; x<chromosome[i]; x++){
-                aux[x] = chromosome[k];
-                k++;
+            if(chromosome[i] == 0) {
+                routes[j] = new Route(depot.getX(), depot.getY());
             }
-            routes[j] = new Route(aux, orders, depot.getX(), depot.getY());
-            totalDistance += routes[j].getDistance();
+            else{
+                int aux[] = new int[chromosome[i]];
+                for(int x=0; x<chromosome[i]; x++){
+                    aux[x] = chromosome[k];
+                    k++;
+                }
+                routes[j] = new Route(aux, orders, depot.getX(), depot.getY());
+                totalDistance += routes[j].getDistance();
+            }
+
         }
 
         double fitness = 1 / totalDistance;
@@ -154,8 +162,14 @@ public class GeneticAlgorithm {
 	 * @return The new population
 	 */
     public Population crossoverPopulation(Population population){
+        int n = population.getNumberDestinations();
+        int m = population.getNumberSalesmen();
+
         // Create new population
+        System.out.println("Pop size: "+population.size());
         Population newPopulation = new Population(population.size());
+        newPopulation.setNumDestinations(n);
+        newPopulation.setNumSalesmen(m);
         
         // Loop over current population by fitness
         for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
@@ -166,9 +180,9 @@ public class GeneticAlgorithm {
             if (this.crossoverRate > Math.random() && populationIndex >= this.elitismCount) {
                 // Find parent2 with tournament selection
                 Individual parent2 = this.selectParent(population);
-
+                
                 // Create blank offspring chromosome
-                int offspringChromosome[] = new int[parent1.getChromosomeLength()];
+                int offspringChromosome[] = new int[n+m];
                 Arrays.fill(offspringChromosome, -1);
 
                 /**
@@ -177,8 +191,9 @@ public class GeneticAlgorithm {
                 Individual offspring = new Individual(offspringChromosome);
 
                 // Get subset of parent chromosomes
-                int substrPos1 = (int) (Math.random() * population.getNumberDestinations());
-                int substrPos2 = (int) (Math.random() * population.getNumberDestinations());
+                Random r = new Random();
+                int substrPos1 = r.nextInt(n - 0 + 1) + 0;
+                int substrPos2 = r.nextInt(n - 0 + 1) + 0;
 
                 // make the smaller the start and the larger the end
                 final int startSubstr = Math.min(substrPos1, substrPos2);
@@ -190,16 +205,16 @@ public class GeneticAlgorithm {
                 }
 
                 // Loop through parent2's city tour
-                for (int i = 0; i < population.getNumberDestinations(); i++) {
+                for (int i = 0; i < n; i++) {
                     int parent2Gene = i + endSubstr;
-                    if (parent2Gene >= population.getNumberDestinations()) {
-                        parent2Gene -= population.getNumberDestinations();
+                    if (parent2Gene >= n) {
+                        parent2Gene -= n;
                     }
 
                     // If offspring doesn't have the city add it
-                    if (offspring.containsGene(parent2.getGene(parent2Gene)) == false) {
+                    if (offspring.containsDestination(parent2.getGene(parent2Gene), n) == false) {
                         // Loop to find a spare position in the child's tour
-                        for (int ii = 0; ii < population.getNumberDestinations(); ii++) {
+                        for (int ii = 0; ii < n; ii++) {
                             // Spare position found, add city
                             if (offspring.getGene(ii) == -1) {
                                 offspring.setGene(ii, parent2.getGene(parent2Gene));
@@ -208,12 +223,10 @@ public class GeneticAlgorithm {
                         }
                     }
                 }
-
+                
                 /**
                  * Second part of the chromosome using single point asexual crossover
                  */
-                int n = population.getNumberDestinations();
-                int m = population.getNumberSalesmen();
 
                 int crossPoint = (int) Math.random()*m;
 
