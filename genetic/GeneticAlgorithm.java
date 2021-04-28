@@ -59,14 +59,29 @@ public class GeneticAlgorithm {
 	 * 
 	 * @param individual
 	 *            the individual to evaluate
-	 * @param cities
+	 * @param orders
 	 *            the cities being referenced
 	 * @return double The fitness value for individual
 	 */
     public double calcFitness(Individual individual, Product orders[], Product depot){
         // Get fitness
-        Route route = new Route(individual, orders, depot.getX(), depot.getY());
-        double fitness = 1 / route.getDistance();
+        Route routes[] = new Route[individual.getChromosome().length - orders.length];
+
+        double totalDistance = 0;
+
+        // Loop the individual's chromosome to generate m Routes
+        int chromosome[] =  individual.getChromosome();
+        for (int i = orders.length, j=0, k=0; i < chromosome.length; i++, j++){
+            int aux[] = new int[chromosome[i]];
+            for(int x=0; x<chromosome[i]; x++){
+                aux[x] = chromosome[k];
+                k++;
+            }
+            routes[j] = new Route(aux, orders, depot.getX(), depot.getY());
+            totalDistance += routes[j].getDistance();
+        }
+
+        double fitness = 1 / totalDistance;
                 
         // Store fitness
         individual.setFitness(fitness);

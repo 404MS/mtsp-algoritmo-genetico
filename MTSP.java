@@ -61,7 +61,7 @@ public class MTSP {
 		}
 
 		// Initial GA
-		GeneticAlgorithm ga = new GeneticAlgorithm(numProducts, 0.001, 0.9, 2, 5);
+		GeneticAlgorithm ga = new GeneticAlgorithm(numProducts, 0.001, 0.9, 1, 3);
 
 		// Initialize population
 		Population population = ga.initPopulation(products.length, workers.size());
@@ -69,7 +69,7 @@ public class MTSP {
 		// Evaluate population
 		ga.evalPopulation(population, products, depot);
 
-		Route startRoute = new Route(population.getFittest(0), products, depot.getX(), depot.getY());
+		Route startRoute = new Route(population.getFittest(0).getChromosome(), products, depot.getX(), depot.getY());
 		System.out.println("Start Distance: " + startRoute.getDistance());
 
 		// Keep track of current generation
@@ -77,7 +77,7 @@ public class MTSP {
 		// Start evolution loop
 		while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
 			// Print fittest individual from population
-			Route route = new Route(population.getFittest(0), products, depot.getX(), depot.getY());
+			Route route = new Route(population.getFittest(0).getChromosome(), products, depot.getX(), depot.getY());
 			if(generation % 1000 == 0){
 				System.out.println("G"+generation+" Best distance: " + route.getDistance());
 			}
@@ -96,7 +96,7 @@ public class MTSP {
 		}
 		
 		System.out.println("Stopped after " + maxGenerations + " generations.");
-		Route route = new Route(population.getFittest(0), products, depot.getX(), depot.getY());
+		Route route = new Route(population.getFittest(0).getChromosome(), products, depot.getX(), depot.getY());
 		System.out.println("Best distance: " + route.getDistance());
 		route.printRoute();
 	}

@@ -28,13 +28,18 @@ public class Route {
 	 * @param y
 	 *            Y coordinate of the depot
 	 */
-	public Route(Individual individual, Product destinations[], int x, int y) {
-		// Get individual's chromosome
-		int chromosome[] = individual.getChromosome();
+	public Route(int[] destinationsIndex, Product destinations[], int x, int y) {
+
 		// Create route
-		this.route = new Product[destinations.length];
-		for (int geneIndex = 0; geneIndex < destinations.length; geneIndex++) {
-			this.route[geneIndex] = destinations[chromosome[geneIndex]];
+		if(destinationsIndex.length <= destinations.length){
+			this.route = new Product[destinationsIndex.length];
+		}
+		else {
+			this.route = new Product[destinations.length];
+		}
+		
+		for (int i = 0; i < route.length; i++) {
+			this.route[i] = destinations[destinationsIndex[i]];
 		}
 		// Assign coordinates
 		this.depot = new Product(x, y);
