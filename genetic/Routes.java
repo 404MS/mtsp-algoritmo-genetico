@@ -3,7 +3,7 @@ package genetic;
 import java.util.ArrayList;
 
 import model.Product;
-import model.Worker;
+import model.Vehicle;
 
 public class Routes {
   private ArrayList<Route> routes;
@@ -11,7 +11,7 @@ public class Routes {
   private double totalTime;
   private double totalCost;
   
-  public Routes(Individual individual, ArrayList<Product> products, ArrayList<Worker> workers, Product depot){
+  public Routes(Individual individual, ArrayList<Product> products, ArrayList<Vehicle> vehicles, Product depot){
 
     routes = new ArrayList<>();
 
@@ -22,7 +22,7 @@ public class Routes {
 
     for (int i = products.size(), j=0, k=0; i < chromosome.length; i++, j++){
         if(chromosome[i] == 0) {
-            routes.add(new Route(products, workers.get(j), depot));
+            routes.add(new Route(products, vehicles.get(j), depot));
         }
         else{
             int aux[] = new int[chromosome[i]];
@@ -30,7 +30,7 @@ public class Routes {
                 aux[x] = chromosome[k];
                 k++;
             }
-            routes.add(new Route(aux, products, workers.get(j), depot));
+            routes.add(new Route(aux, products, vehicles.get(j), depot));
             
             totalDistance += routes.get(j).getDistance();
             totalTime += routes.get(j).getTime();

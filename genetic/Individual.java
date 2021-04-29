@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import model.Worker;
+import model.Vehicle;
 
 public class Individual {
 	
@@ -38,7 +38,7 @@ public class Individual {
 	 * @param workers
 	 * 						Array of workers associated with individual
 	 */
-	public Individual(int numDestinations, int numWorkers, ArrayList<Worker> workers) {
+	public Individual(int numDestinations, int numWorkers, ArrayList<Vehicle> workers) {
 		// Create random individual
 		int[] individual;
 		individual = new int[numDestinations + numWorkers];

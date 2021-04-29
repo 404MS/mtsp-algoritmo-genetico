@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  */
 
-public class Worker {
+public class Vehicle {
   private ArrayList<Product> assignedOrders;
   private int capacity;
   private int speed;
@@ -26,13 +26,13 @@ public class Worker {
    * @param ck
 	 *            cost per km
 	 */
-  public Worker(int c, int s, int ck) {
+  public Vehicle(int c, int s, int ck) {
     this.capacity = c;
     this.speed = s;
     this.costPerKm = ck;
   }
 
-  public Worker(Worker w){
+  public Vehicle(Vehicle w){
     this.capacity = w.getCapacity();
     this.speed = w.getSpeed();
     this.costPerKm = w.getCostPerKm();

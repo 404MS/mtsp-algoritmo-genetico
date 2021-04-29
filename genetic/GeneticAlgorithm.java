@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import model.Product;
-import model.Worker;
+import model.Vehicle;
 
 public class GeneticAlgorithm {
 	
@@ -34,7 +34,7 @@ public class GeneticAlgorithm {
      * @param workers Array of workers to check capacities and generate valid population
      * @return population The initial population generated
      */
-    public Population initPopulation(int numDestinations, int numSalesmen, ArrayList<Worker> workers){
+    public Population initPopulation(int numDestinations, int numSalesmen, ArrayList<Vehicle> workers){
         // Initialize population
         Population population = new Population(this.populationSize, numDestinations, numSalesmen, workers);
         return population;
@@ -71,7 +71,7 @@ public class GeneticAlgorithm {
 	 *            the depot (only for its coordinates)
 	 * @return double The fitness value for individual
 	 */
-    public double calcFitness(Individual individual, ArrayList<Product> products, ArrayList<Worker> workers, Product depot){
+    public double calcFitness(Individual individual, ArrayList<Product> products, ArrayList<Vehicle> workers, Product depot){
         // Get fitness
 
         Routes routes = new Routes(individual, products, workers, depot);
@@ -90,7 +90,7 @@ public class GeneticAlgorithm {
      * @param population the population to evaluate
      * @param cities the cities being referenced
      */
-    public void evalPopulation(Population population, ArrayList<Product> products, ArrayList<Worker> workers, Product depot){
+    public void evalPopulation(Population population, ArrayList<Product> products, ArrayList<Vehicle> workers, Product depot){
         double populationFitness = 0;
         
         // Loop over population evaluating individuals and summing population fitness
@@ -128,32 +128,29 @@ public class GeneticAlgorithm {
 
 	
     /**
-	 * Ordered crossover mutation
+	 * Crossover operation:
 	 * 
-	 * Chromosomes in the TSP require that each city is visited exactly once.
-	 * Uniform crossover can break the chromosome by accidentally selecting a
-	 * city that has already been visited from a parent; this would lead to one
-	 * city being visited twice and another city being skipped altogether.
-	 * 
-	 * Additionally, uniform or random crossover doesn't really preserve the
-	 * most important aspect of the genetic information: the specific order of a
-	 * group of cities.
-	 * 
-	 * We need a more clever crossover algorithm here. What we can do is choose
-	 * two pivot points, add chromosomes from one parent for one of the ranges,
-	 * and then only add not-yet-represented cities to the second range. This
-	 * ensures that no cities are skipped or visited twice, while also
-	 * preserving ordered batches of cities.
+     * We use ordered crossover for the first part of the chromosome so the set of 
+     * destinations in each individual remains the same (no repeated nodes)
+     * 
+     * For the second part part, we assume the array of workers is ordered by type
+     * therefore for each type we use asexual single point crossover so there's no
+     * risk of assigning more orders than a worker can carry
 	 * 
 	 * @param population
+     * @param vehicles
 	 * @return The new population
 	 */
-    public Population crossoverPopulation(Population population){
+    public Population crossoverPopulation(Population population, ArrayList<Vehicle> vehicles){
         int n = population.getNumberDestinations();
         int m = population.getNumberSalesmen();
 
+        int separationPoint = 0, size = vehicles.size();
+        for(int i = 0; i < size - 1 && vehicles.get(i).getCapacity() == vehicles.get(i+1).getCapacity(); i++, separationPoint = i) {
+        }
+        separationPoint++;
+
         // Create new population
-        System.out.println("Pop size: "+population.size());
         Population newPopulation = new Population(population.size());
         newPopulation.setNumDestinations(n);
         newPopulation.setNumSalesmen(m);
@@ -212,17 +209,32 @@ public class GeneticAlgorithm {
                 }
                 
                 /**
-                 * Second part of the chromosome using single point asexual crossover
+                 * Second part of the chromosome using single point asexual crossover for
+                 * each type of worker (differentiaded with its capacity)
+                 * 
+                 * First find the point where there's the change of worker type
                  */
+                
+                int crossPoint = (int) Math.random() * separationPoint;
 
-                int crossPoint = (int) Math.random()*m;
-
-                for(int i = n, j=crossPoint; i < crossPoint; i++,j++) {
+                for(int i = n, j = crossPoint; i < crossPoint; i++,j++) {
                     offspring.setGene(i, parent1.getGene(j));
                 }
                 
-                for(int i = n + crossPoint, j=n; i < m+n; i++, j++) {
+                for(int i = n + crossPoint, j=n; i < n+separationPoint; i++, j++) {
                     offspring.setGene(i, parent1.getGene(j));
+                }
+
+                if(separationPoint < size){
+                    crossPoint = (int) Math.random() * (m-separationPoint);
+
+                    for(int i = n+separationPoint-1, j=crossPoint; i < crossPoint; i++,j++) {
+                        offspring.setGene(i, parent1.getGene(j));
+                    }
+                    
+                    for(int i = n+separationPoint-1 + crossPoint, j=n+separationPoint-1; i < m+n; i++, j++) {
+                        offspring.setGene(i, parent1.getGene(j));
+                    }
                 }
 
                 // Add child

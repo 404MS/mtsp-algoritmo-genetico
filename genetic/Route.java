@@ -3,7 +3,7 @@ package genetic;
 import java.util.ArrayList;
 
 import model.Product;
-import model.Worker;
+import model.Vehicle;
 /**
  * The main Evaluation class for the TSP. It's pretty simple -- given an
  * Individual (ie, a chromosome) and a list of canonical cities, calculate the
@@ -17,7 +17,7 @@ import model.Worker;
 public class Route {
 	private Product route[];
 	private Product depot;
-	private Worker worker;
+	private Vehicle worker;
 
 	private double distance;
 	private double cost;
@@ -30,13 +30,13 @@ public class Route {
 	 *            Array of destinations index where the worker will go
 	 * @param destinations
 	 *            The destinations referenced
-	 * @param worker
+	 * @param vehicle
 	 * 						The worker assigned to the route
 	 * @param depot
 	 * 						The origin point of the worker
 	 * 
 	 */
-	public Route(int[] destinationsIndex, ArrayList<Product> destinations, Worker worker, Product depot) {
+	public Route(int[] destinationsIndex, ArrayList<Product> destinations, Vehicle vehicle, Product depot) {
 
 		this.distance = 0;
 		this.cost = 0;
@@ -56,7 +56,7 @@ public class Route {
 
 		// Assign coordinates
 		this.depot = new Product(depot);
-		this.worker = new Worker(worker);
+		this.worker = new Vehicle(vehicle);
 	}
 	/**
 	 * Initialize Blank Route
@@ -71,7 +71,7 @@ public class Route {
 	 * 						The origin point of the worker
 	 * 
 	 */
-	public Route(ArrayList<Product> destinations, Worker worker, Product depot) {
+	public Route(ArrayList<Product> destinations, Vehicle worker, Product depot) {
 
 		this.distance = 0;
 		this.cost = 0;
@@ -80,7 +80,7 @@ public class Route {
 
 		// Assign coordinates
 		this.depot = new Product(depot);
-		this.worker = new Worker(worker);
+		this.worker = new Vehicle(worker);
 	}
 
 	/**

@@ -6,7 +6,7 @@ import java.util.Random;
 
 import genetic.GeneticAlgorithm;
 import model.Product;
-import model.Worker;
+import model.Vehicle;
 
 /**
  * Main, executive class for the Multiple Traveling Salesman Problem.
@@ -38,17 +38,17 @@ public class MTSP {
 		Product depot = new Product(depotX,depotY);
 
 		// Create workers
-		ArrayList<Worker> workers = new ArrayList<Worker>();
+		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 		for (int i = 0; i < 2; i++){
-			workers.add(new Worker(2, 60,3));
+			vehicles.add(new Vehicle(10, 60,3));
 		}
 		for (int i = 0; i < 2; i++){
-			workers.add(new Worker(4, 30, 5));
+			vehicles.add(new Vehicle(80, 30, 5));
 		}
-		int numWorkers = workers.size();
+		int numWorkers = vehicles.size();
 
 		// Create products/destinations
-		int numProducts = 5;
+		int numProducts = 100;
 		Product products[] = new Product[numProducts];
 		
 		// Loop to create random locations
@@ -69,8 +69,8 @@ public class MTSP {
 		
 		// Get total capacity of workers
 		int totalCapacity = 0;
-		for(int i = 0; i < workers.size(); i++){
-			totalCapacity += workers.get(i).getCapacity();
+		for(int i = 0; i < vehicles.size(); i++){
+			totalCapacity += vehicles.get(i).getCapacity();
 		}
 
 		// Select products up to total capacity
@@ -80,18 +80,23 @@ public class MTSP {
 			numSelectedProducts++;
 		}
 
+		System.out.println("Number of products to send: " + numSelectedProducts);
+
 		/**
 		 * Begins Genetic Algorithm
 		 */
 
 		// Initial GA
-		GeneticAlgorithm ga = new GeneticAlgorithm(5, 0.001, 0.9, 1, 3);
+		GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.001, 0.8, 1, 5);
 
 		// Initialize population
-		Population population = ga.initPopulation(numSelectedProducts, numWorkers, workers);
+		Population population = ga.initPopulation(numSelectedProducts, numWorkers, vehicles);
 	
 		// Evaluate population
-		ga.evalPopulation(population, selectedProducts, workers,depot);
+		ga.evalPopulation(population, selectedProducts, vehicles,depot);
+
+		Routes startRoute = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
+		System.out.println("Start Cost: " + startRoute.getCost());
 
 		// Print population
 		System.out.println("Initial population");
@@ -99,55 +104,40 @@ public class MTSP {
 			System.out.println(population.getIndividual(i));
 		}
 
-		Routes startRoute = new Routes(population.getFittest(0), selectedProducts, workers, depot);
-		System.out.println("Start Cost: " + startRoute.getCost());
-
-
-
 		// Keep track of current generation
-		// int generation = 1;
+		int generation = 1;
 
-		// // Start evolution loop
-		// while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
-		// 	// Print fittest individual from population
-		// 	Route route = new Route(population.getFittest(0).getChromosome(), products, depot.getX(), depot.getY());
-		// 	if(true){
-		// 		System.out.println("G"+generation+" Best distance: " + route.getDistance());
-		// 		System.out.printf("G"+generation+" Best chromosome:");
-		// 		for(int i=0; i<population.getNumberDestinations()+population.getNumberSalesmen(); i++){
-		// 			System.out.printf("%d ", population.getFittest(0).getChromosome()[i]);
-		// 		}
-		// 		System.out.println();
-				
-		// 	}
+		// Start evolution loop
+		while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
+			// Print fittest individual from population
+			Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
+			if(generation % 100 == 0){
+				System.out.println("G"+generation+" Best cost: " + routes.getCost());
+				System.out.printf("G"+generation+" Best chromosome: ");
+				System.out.println(population.getFittest(0));
+			}
 			
-		// 	// Apply crossover
-		// 	population = ga.crossoverPopulation(population);
+			// Apply crossover
+			population = ga.crossoverPopulation(population, vehicles);
 
-		// 	// Print population
-		// 	// System.out.println("Population after crossver");
-		// 	// for (int i = 0; i < population.size(); i++) {
-		// 	// 	int aux = i;
-		// 	// 	for(int j = 0; j<population.getNumberDestinations()+population.getNumberSalesmen(); j++) {
-		// 	// 		System.out.printf("%d ", population.getIndividual(aux).getChromosome()[j]);
-		// 	// 	}
-		// 	// 	System.out.println();
-		// 	// }
-		// 	// System.out.println();
+			// Apply mutation
+			//population = ga.mutatePopulation(population);
 
-		// 	// Apply mutation
-		// 	//population = ga.mutatePopulation(population);
+			// // Print population
+			// System.out.println("After crossover population");
+			// for (int i = 0; i < population.size(); i++) {
+			// 	System.out.println(population.getIndividual(i));
+			// }
 
-		// 	// Evaluate population
-		// 	ga.evalPopulation(population, products, depot);
+			// Evaluate population
+			ga.evalPopulation(population, selectedProducts, vehicles,depot);
 
-		// 	// Increment the current generation
-		// 	generation++;
-		// }
+			// Increment the current generation
+			generation++;
+		}
 		
-		// System.out.println("Stopped after " + maxGenerations + " generations.");
-		// Route route = new Route(population.getFittest(0).getChromosome(), products, depot.getX(), depot.getY());
-		// System.out.println("Best distance: " + route.getDistance());
-		// route.printRoute();
+		System.out.println("Stopped after " + maxGenerations + " generations.");
+		Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
+		System.out.println("Best cost: " + routes.getCost());
 	}
 }
