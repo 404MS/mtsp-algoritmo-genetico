@@ -37,7 +37,7 @@ public class MTSP {
 		int depotX = 20, depotY = 30;
 		Product depot = new Product(depotX,depotY);
 
-		// Create workers
+		// Create vehicles
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
 		for (int i = 0; i < 2; i++){
 			vehicles.add(new Vehicle(10, 60,3));
@@ -45,7 +45,7 @@ public class MTSP {
 		for (int i = 0; i < 2; i++){
 			vehicles.add(new Vehicle(80, 30, 5));
 		}
-		int numWorkers = vehicles.size();
+		int numVehicles = vehicles.size();
 
 		// Create products/destinations
 		int numProducts = 100;
@@ -62,12 +62,12 @@ public class MTSP {
 			products[i] = new Product(xPos, yPos);
 		}
 
-		// Select first C products that can be carried by total capacity of workers
+		// Select first C products that can be carried by total capacity of vehicles
 		
 		// Order by deadline
 		ArrayList<Product> selectedProducts = new ArrayList<Product>();
 		
-		// Get total capacity of workers
+		// Get total capacity of vehicles
 		int totalCapacity = 0;
 		for(int i = 0; i < vehicles.size(); i++){
 			totalCapacity += vehicles.get(i).getCapacity();
@@ -90,7 +90,7 @@ public class MTSP {
 		GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.001, 0.8, 1, 5);
 
 		// Initialize population
-		Population population = ga.initPopulation(numSelectedProducts, numWorkers, vehicles);
+		Population population = ga.initPopulation(numSelectedProducts, numVehicles, vehicles);
 	
 		// Evaluate population
 		ga.evalPopulation(population, selectedProducts, vehicles,depot);
@@ -121,13 +121,7 @@ public class MTSP {
 			population = ga.crossoverPopulation(population, vehicles);
 
 			// Apply mutation
-			//population = ga.mutatePopulation(population);
-
-			// // Print population
-			// System.out.println("After crossover population");
-			// for (int i = 0; i < population.size(); i++) {
-			// 	System.out.println(population.getIndividual(i));
-			// }
+			population = ga.mutatePopulation(population);
 
 			// Evaluate population
 			ga.evalPopulation(population, selectedProducts, vehicles,depot);
