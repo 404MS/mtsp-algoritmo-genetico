@@ -26,9 +26,9 @@ public class MTSP {
 
 	// Min and Max coordinates
 	private static int minYCoordinate = 0;
-	private static int maxYCoordinate = 25;
+	private static int maxYCoordinate = 50;
 	private static int minXCoordinate = 0;
-	private static int maxXCoordinate = 35;
+	private static int maxXCoordinate = 70;
 
 
 	public static void main(String[] args) {
@@ -39,11 +39,11 @@ public class MTSP {
 
 		// Create vehicles
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-		for (int i = 0; i < 2; i++){
-			vehicles.add(new Vehicle(10, 60,3));
+		for (int i = 0; i < 10; i++){
+			vehicles.add(new Vehicle(4, 60,3));
 		}
-		for (int i = 0; i < 2; i++){
-			vehicles.add(new Vehicle(80, 30, 5));
+		for (int i = 0; i < 10; i++){
+			vehicles.add(new Vehicle(25, 30, 5));
 		}
 		int numVehicles = vehicles.size();
 
@@ -85,6 +85,7 @@ public class MTSP {
 		/**
 		 * Begins Genetic Algorithm
 		 */
+		final long startTime = System.currentTimeMillis();
 
 		// Initial GA
 		GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.001, 0.8, 1, 5);
@@ -129,7 +130,11 @@ public class MTSP {
 			// Increment the current generation
 			generation++;
 		}
-		
+		final long endTime = System.currentTimeMillis();
+		System.out.println();
+		System.out.println("Total execution time: " + (endTime - startTime));
+		System.out.println();
+
 		System.out.println("Stopped after " + maxGenerations + " generations.");
 		Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
 		System.out.println("Best cost: " + routes.getCost());
