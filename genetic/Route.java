@@ -149,7 +149,12 @@ public class Route {
 		return totalTime;
 	}
 
-	public void printRoute () {
-
+	public String toString() {
+		String str = "";
+		for(int i = 0; i < this.route.length; i++) {
+			str += "(" + this.route[i].getX() + "," + this.route[i].getY() + ")";
+			if(i < this.route.length - 1) str += " -> ";
+		}
+		return str;
 	}
 }

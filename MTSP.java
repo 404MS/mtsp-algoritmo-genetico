@@ -99,10 +99,10 @@ public class MTSP {
 		System.out.println("Start Cost: " + startRoute.getCost());
 
 		// Print population
-		System.out.println("Initial population");
-		for (int i = 0; i < population.size(); i++) {
-			System.out.println(population.getIndividual(i));
-		}
+		// System.out.println("Initial population");
+		// for (int i = 0; i < population.size(); i++) {
+		// 	System.out.println(population.getIndividual(i));
+		// }
 
 		// Keep track of current generation
 		int generation = 1;
@@ -111,7 +111,7 @@ public class MTSP {
 		while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
 			// Print fittest individual from population
 			Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
-			if(generation % 100 == 0){
+			if(generation % 1000 == 0){
 				System.out.println("G"+generation+" Best cost: " + routes.getCost());
 				System.out.printf("G"+generation+" Best chromosome: ");
 				System.out.println(population.getFittest(0));
@@ -121,7 +121,7 @@ public class MTSP {
 			population = ga.crossoverPopulation(population, vehicles);
 
 			// Apply mutation
-			population = ga.mutatePopulation(population);
+			//population = ga.mutatePopulation(population);
 
 			// Evaluate population
 			ga.evalPopulation(population, selectedProducts, vehicles,depot);
@@ -133,5 +133,6 @@ public class MTSP {
 		System.out.println("Stopped after " + maxGenerations + " generations.");
 		Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
 		System.out.println("Best cost: " + routes.getCost());
+		routes.printRoutes();
 	}
 }

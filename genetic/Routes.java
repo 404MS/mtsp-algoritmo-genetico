@@ -56,6 +56,11 @@ public class Routes {
   }
 
   public void printRoutes(){
-
+    for(int i = 0; i < routes.size(); i++){
+      System.out.println("Vehicle "+i);
+      System.out.println(routes.get(i));
+      System.out.println("Estimated time: " + routes.get(i).getTime());
+      System.out.println();
+    }
   }
 }
