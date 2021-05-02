@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Random;
@@ -102,40 +103,32 @@ public class MTSP {
 			products.add(new Product(i, xPos, yPos, deadline,r.nextBoolean()));
 		}
 
-		for(Product p : products) {
-			System.out.println(p);
+		// Select first C products that can be carried by total capacity of vehicles
+		
+		// Order by deadline
+		Collections.sort(products);
+
+		ArrayList<Product> selectedProducts = new ArrayList<Product>();
+		
+		// Get total capacity of vehicles
+		int totalCapacity = 0;
+		for(int i = 0; i < vehicles.size(); i++){
+			totalCapacity += vehicles.get(i).getCapacity();
 		}
 
-	// 	// Select first C products that can be carried by total capacity of vehicles
+		// Select products up to total capacity
+		int numSelectedProducts = 0;
+		for (int i = 0; i < totalCapacity && i < products.size(); i++){
+			selectedProducts.add(products.get(i));
+			numSelectedProducts++;
+		}
+
+	 	System.out.println("Number of products to send: " + numSelectedProducts);
+
+		/**
+		 * Begins Genetic Algorithm
+		 */
 		
-	// 	// Order by deadline
-	// 	Collections.sort(products, new Comparator<Product>(){
-	// 		public int compare(Product o1, Product o2) {
-	// 			int res = 0;
-	// 			if(o1.getDeadline().isBefore(o2.getDeadline())) res = 1;
-	// 			return res;
-	// 		}
-	// 	});
-	// 	ArrayList<Product> selectedProducts = new ArrayList<Product>();
-		
-	// 	// Get total capacity of vehicles
-	// 	int totalCapacity = 0;
-	// 	for(int i = 0; i < vehicles.size(); i++){
-	// 		totalCapacity += vehicles.get(i).getCapacity();
-	// 	}
-
-	// 	// Select products up to total capacity
-	// 	int numSelectedProducts = 0;
-	// 	for (int i = 0; i < totalCapacity && i < products.size(); i++){
-	// 		selectedProducts.add(products.get(i));
-	// 		numSelectedProducts++;
-	// 	}
-
-	// 	System.out.println("Number of products to send: " + numSelectedProducts);
-
-	// 	/**
-	// 	 * Begins Genetic Algorithm
-	// 	 */
 	// 	final long startTime = System.currentTimeMillis();
 
 	// 	// Initial GA

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  * @author ms
  *
  */
-public class Product {
+public class Product implements Comparable<Product>{
 	private int id;
 	private int x;
 	private int y;
@@ -78,6 +78,11 @@ public class Product {
 		String prod = "";
 		prod += this.id + ":  (" + this.x + "," + this.y + ") " + this.deadline + " - " + this.isLast;
 		return prod;
+	}
+
+	@Override
+	public int compareTo(Product o) {
+		return this.getDeadline().compareTo(o.getDeadline());
 	}
 
 }
