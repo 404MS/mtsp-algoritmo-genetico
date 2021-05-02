@@ -69,23 +69,23 @@ public class MTSP {
 
 		// Create vehicles
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-		for (int i = 0; i < 10; i++){
+		for (int i = 0; i < 3; i++){
 			vehicles.add(new Vehicle(4, 60,3));
 		}
-		for (int i = 0; i < 5; i++){
+		for (int i = 0; i < 2; i++){
 			vehicles.add(new Vehicle(25, 30, 5));
 		}
 		int numVehicles = vehicles.size();
 
 		// Create workers (at least as many workers as vehicles)
 		ArrayList<Worker> workers = new ArrayList<>();
-		for(int i = 0 ; i < 17; i++){
+		for(int i = 0 ; i < 15; i++){
 			Random r = new Random();
 			workers.add(new Worker(i, r.nextBoolean()));
 		}
 
 		// Create products/destinations
-		int numProducts = 10;
+		int numProducts = 5;
 		ArrayList<Product> products = new ArrayList<>();
 		
 		// Loop to create random locations
@@ -129,25 +129,25 @@ public class MTSP {
 		 * Begins Genetic Algorithm
 		 */
 		
-	// 	final long startTime = System.currentTimeMillis();
+	 	final long startTime = System.currentTimeMillis();
 
-	// 	// Initial GA
-	// 	GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.001, 0.8, 1, 5);
+	 	// Initial GA
+	 	GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.001, 0.8, 1, 5);
 
-	// 	// Initialize population
-	// 	Population population = ga.initPopulation(numSelectedProducts, numVehicles, vehicles);
+	 	// Initialize population
+	 	Population population = ga.initPopulation(numSelectedProducts, numVehicles, vehicles, workers);
 	
-	// 	// Evaluate population
-	// 	ga.evalPopulation(population, selectedProducts, vehicles,depot);
+	 	// Evaluate population
+//	 	ga.evalPopulation(population, selectedProducts, vehicles, depot);
 
 	// 	Routes startRoute = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
 	// 	System.out.println("Start Cost: " + startRoute.getCost());
 
-	// 	// Print population
-	// 	// System.out.println("Initial population");
-	// 	// for (int i = 0; i < population.size(); i++) {
-	// 	// 	System.out.println(population.getIndividual(i));
-	// 	// }
+		// Print population
+		System.out.println("Initial population");
+		for (int i = 0; i < population.size(); i++) {
+			System.out.println(population.getIndividual(i));
+		}
 
 	// 	// Keep track of current generation
 	// 	int generation = 1;

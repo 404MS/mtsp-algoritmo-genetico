@@ -8,6 +8,7 @@ import java.util.concurrent.Executors;
 
 import model.Product;
 import model.Vehicle;
+import model.Worker;
 
 public class GeneticAlgorithm {
 	
@@ -36,9 +37,9 @@ public class GeneticAlgorithm {
      * @param vehicles Array of vehicles to check capacities and generate valid population
      * @return population The initial population generated
      */
-    public Population initPopulation(int numDestinations, int numVehicles, ArrayList<Vehicle> vehicles){
+    public Population initPopulation(int numDestinations, int numVehicles, ArrayList<Vehicle> vehicles, ArrayList<Worker> workers){
         // Initialize population
-        Population population = new Population(this.populationSize, numDestinations, numVehicles, vehicles);
+        Population population = new Population(this.populationSize, numDestinations, numVehicles, vehicles, workers);
         return population;
     }
     
@@ -168,8 +169,8 @@ public class GeneticAlgorithm {
 	 * @return The new population
 	 */
     public Population crossoverPopulation(Population population, ArrayList<Vehicle> vehicles){
-        int n = population.getNumberDestinations();
-        int m = population.getNumberSalesmen();
+        int n = population.getNumDestinations();
+        int m = population.getNumVehicles();
 
         int separationPoint = 0, size = vehicles.size();
         for(int i = 0; i < size - 1 && vehicles.get(i).getCapacity() == vehicles.get(i+1).getCapacity(); i++, separationPoint = i) {
@@ -179,7 +180,7 @@ public class GeneticAlgorithm {
         // Create new population
         Population newPopulation = new Population(population.size());
         newPopulation.setNumDestinations(n);
-        newPopulation.setNumSalesmen(m);
+        newPopulation.setNumVehicles(m);
         
         // Loop over current population by fitness
         for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {
@@ -289,8 +290,8 @@ public class GeneticAlgorithm {
         // Initialize new population
         Population newPopulation = new Population(this.populationSize);
         
-        int n = population.getNumberDestinations();
-        int m = population.getNumberSalesmen();
+        int n = population.getNumDestinations();
+        int m = population.getNumVehicles();
 
         // Loop over current population by fitness
         for (int populationIndex = 0; populationIndex < population.size(); populationIndex++) {

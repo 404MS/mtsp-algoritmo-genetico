@@ -1,10 +1,12 @@
 package genetic;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import model.Vehicle;
+import model.Worker;
 
 public class Individual {
 	
@@ -41,57 +43,80 @@ public class Individual {
 	 * @param numVehicles
 	 * 						The number of vehicles
 	 * @param vehicles
+	 * 						Array of vehicles associated with individual
+	 * @param workers
 	 * 						Array of workers associated with individual
 	 */
-	public Individual(int numDestinations, int numVehicles, ArrayList<Vehicle> vehicles) {
+	public Individual(int numDestinations, int numVehicles, ArrayList<Vehicle> vehicles, ArrayList<Worker> workers) {
 		// Create random individual
 		int[] individual;
-		individual = new int[numDestinations + numVehicles];
+		individual = new int[numDestinations + numVehicles + numVehicles];
 		
 		/**
 		 * First, generate random permutation of destinations
 		 * Then, random valid sequence of integers with total sum n
-		 * where each one is less or equal to its corresponding worker's capacity
+		 * where each one is less or equal to its corresponding vehicles's capacity
+		 * Finally, a random permutation of workers
 		 */
 
+		// list to represent each destination
 		List <Integer> destinations = new ArrayList<Integer>();
 		for(int i = 0; i < numDestinations; i++) {
 			destinations.add(i);
 		}
+		// shuffle to get a random order
 		java.util.Collections.shuffle(destinations);
 
-		List <Integer> salesmanToDestinations = new ArrayList<Integer>();
+		// list to represent number of ordered destinations each vehicle will visit
+		List <Integer> vehicleToDestinations = new ArrayList<Integer>();
 		for(int i = 0; i < numVehicles; i++) {
-			salesmanToDestinations.add(0);
+			vehicleToDestinations.add(0);
 		}
-
-		int randomWorker;
-
+		// get a random set of numbers that sum up to the number of destinations
+		int randomVehicle;
 		for(int i=0; i < numDestinations; i++){
 			Random r = new Random();
-			randomWorker = r.nextInt(numVehicles);
+			randomVehicle = r.nextInt(numVehicles);
 			while(true){
-				if(salesmanToDestinations.get(randomWorker) == vehicles.get(randomWorker).getCapacity()) {
-					if(randomWorker == numVehicles-1)	randomWorker = -1;
-					randomWorker++;
+				if(vehicleToDestinations.get(randomVehicle) == vehicles.get(randomVehicle).getCapacity()) {
+					if(randomVehicle == numVehicles-1)	randomVehicle = -1;
+					randomVehicle++;
 				}
 				else {
 					break;
 				}
 			}
-			salesmanToDestinations.set(randomWorker, salesmanToDestinations.get(randomWorker) + 1);
+			vehicleToDestinations.set(randomVehicle, vehicleToDestinations.get(randomVehicle) + 1);
+		}
+
+		// list to represent each worker
+		List<Integer> workersIndex = new ArrayList<Integer>();
+		for(int i = 0; i < workers.size(); i++){
+			workersIndex.add(i);
+		}
+		Collections.shuffle(workersIndex);
+		// shuffle and select a random set of workers, one for each vehicle
+		List<Integer> workerToVehicle = new ArrayList<Integer>();
+		for(int i =0 ; i < numVehicles; i++){
+			workerToVehicle.add(workersIndex.get(i));
 		}
 		
+		// assign values to the individual's chromosome
 		for (int gene = 0; gene < numDestinations; gene++) {
 			individual[gene] = destinations.get(gene);
 		}
 		for (int gene = numDestinations, i = 0; gene < numVehicles + numDestinations; gene++, i++) {
-			individual[gene] = salesmanToDestinations.get(i);
+			individual[gene] = vehicleToDestinations.get(i);
+		}
+		for (int gene = numDestinations + numVehicles, i = 0; gene < 2 * numVehicles + numDestinations; gene++, i++) {
+			individual[gene] = workerToVehicle.get(i);
 		}
 		
 		this.chromosome = individual;
 		destinations.clear();
-		salesmanToDestinations.clear();
+		vehicleToDestinations.clear();
+		workersIndex.clear();
+		workerToVehicle.clear();
 	}
 
 	/**

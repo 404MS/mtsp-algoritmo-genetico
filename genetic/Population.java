@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Random;
 
 import model.Vehicle;
+import model.Worker;
 
 public class Population {
 	private Individual population[];
@@ -31,33 +32,33 @@ public class Population {
 	 *            The size of the population
 	 * @param numDestinations
 	 *            The length of the first part of the chromosome
-	 * @param numSalesmen
-	 *            The length of the second part of the chromosome
+	 * @param numVehicles
+	 *            The length of the second and third part of the chromosome
 	 * @param vehicles
-	 *            Array of workers to check capacity of each one to generate valid individual
+	 *            Array of vehicles to check capacity of each one to generate valid individual
 	 */
-	public Population(int populationSize, int numDestinations, int numSalesmen, ArrayList<Vehicle> vehicles) {
+	public Population(int populationSize, int numDestinations, int numVehicles, ArrayList<Vehicle> vehicles, ArrayList<Worker> workers) {
 		// Initial population
 		this.population = new Individual[populationSize];
 
 		// Loop over population size
 		for (int i = 0; i < populationSize; i++) {
 			// Create individual
-			Individual individual = new Individual(numDestinations, numSalesmen, vehicles);
+			Individual individual = new Individual(numDestinations, numVehicles, vehicles, workers);
 			// Add individual to population
 			this.population[i] = individual;
 		}
 
 		this.n = numDestinations;
-		this.m = numSalesmen;
+		this.m = numVehicles;
 	}
 
 	public void setNumDestinations(int numDestinations) {
 		this.n = numDestinations;
 	}
 
-	public void setNumSalesmen(int numSalesmen) {
-		this.m = numSalesmen;
+	public void setNumVehicles(int numVehicles) {
+		this.m = numVehicles;
 	}
 
 	/**
@@ -164,7 +165,7 @@ public class Population {
 	 * 
 	 * @return int
 	 */
-	public int getNumberSalesmen(){
+	public int getNumVehicles(){
 		return this.m;
 	}
 
@@ -173,7 +174,7 @@ public class Population {
 	 * 
 	 * @return int
 	 */
-	public int getNumberDestinations(){
+	public int getNumDestinations(){
 		return this.n;
 	}
 
