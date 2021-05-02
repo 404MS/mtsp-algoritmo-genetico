@@ -17,7 +17,7 @@ import model.Vehicle;
 public class Route {
 	private Product route[];
 	private Product depot;
-	private Vehicle worker;
+	private Vehicle vehicle;
 
 	private double distance;
 	private double cost;
@@ -56,7 +56,7 @@ public class Route {
 
 		// Assign coordinates
 		this.depot = new Product(depot);
-		this.worker = new Vehicle(vehicle);
+		this.vehicle = new Vehicle(vehicle);
 	}
 	/**
 	 * Initialize Blank Route
@@ -65,13 +65,13 @@ public class Route {
 	 *            Array of destinations index where the worker will go
 	 * @param destinations
 	 *            The destinations referenced
-	 * @param worker
-	 * 						The worker assigned to the route
+	 * @param vehicle
+	 * 						The vehicle assigned to the route
 	 * @param depot
-	 * 						The origin point of the worker
+	 * 						The origin point of the vehicle
 	 * 
 	 */
-	public Route(ArrayList<Product> destinations, Vehicle worker, Product depot) {
+	public Route(ArrayList<Product> destinations, Vehicle vehicle, Product depot) {
 
 		this.distance = 0;
 		this.cost = 0;
@@ -80,7 +80,7 @@ public class Route {
 
 		// Assign coordinates
 		this.depot = new Product(depot);
-		this.worker = new Vehicle(worker);
+		this.vehicle = new Vehicle(vehicle);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class Route {
 			return 0;
 		}
 
-		double totalCost = this.getDistance() * worker.getCostPerKm();
+		double totalCost = this.getDistance() * vehicle.getCostPerKm();
 
 		this.cost = totalCost;
 
@@ -142,7 +142,7 @@ public class Route {
 			return 0;
 		}
 
-		double totalTime = this.getDistance() / worker.getSpeed();
+		double totalTime = this.getDistance() / vehicle.getSpeed();
 
 		this.time = totalTime;
 

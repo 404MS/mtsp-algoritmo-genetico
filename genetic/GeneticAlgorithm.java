@@ -3,6 +3,8 @@ package genetic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import model.Product;
 import model.Vehicle;
@@ -30,13 +32,13 @@ public class GeneticAlgorithm {
      * Initialize population
      * 
      * @param numDestinations The number of destinations
-     * @param numSalesmen The number of salesmen
-     * @param workers Array of workers to check capacities and generate valid population
+     * @param numVehicles The number of vehicles
+     * @param vehicles Array of vehicles to check capacities and generate valid population
      * @return population The initial population generated
      */
-    public Population initPopulation(int numDestinations, int numSalesmen, ArrayList<Vehicle> workers){
+    public Population initPopulation(int numDestinations, int numVehicles, ArrayList<Vehicle> vehicles){
         // Initialize population
-        Population population = new Population(this.populationSize, numDestinations, numSalesmen, workers);
+        Population population = new Population(this.populationSize, numDestinations, numVehicles, vehicles);
         return population;
     }
     
@@ -65,16 +67,16 @@ public class GeneticAlgorithm {
 	 *            the individual to evaluate
 	 * @param products
 	 *            the destinations being referenced
-     * @param workers
-	 *            the workers being referenced
+     * @param vehicles
+	 *            the vehicles being referenced
      * @param depot
 	 *            the depot (only for its coordinates)
 	 * @return double The fitness value for individual
 	 */
-    public double calcFitness(Individual individual, ArrayList<Product> products, ArrayList<Vehicle> workers, Product depot){
+    public double calcFitness(Individual individual, ArrayList<Product> products, ArrayList<Vehicle> vehicles, Product depot){
         // Get fitness
 
-        Routes routes = new Routes(individual, products, workers, depot);
+        Routes routes = new Routes(individual, products, vehicles, depot);
 
         double fitness = 1 / routes.getCost();
             
@@ -88,16 +90,39 @@ public class GeneticAlgorithm {
      * Evaluate population -- basically run calcFitness on each individual.
      * 
      * @param population the population to evaluate
-     * @param cities the cities being referenced
+     * @param products the products being referenced
+     * @param vehicles the vehicles being referenced
+     * @param depot the point of origin for each route
+     * 
      */
-    public void evalPopulation(Population population, ArrayList<Product> products, ArrayList<Vehicle> workers, Product depot){
+    public void evalPopulation(Population population, ArrayList<Product> products, ArrayList<Vehicle> vehicles, Product depot){
         double populationFitness = 0;
         
         // Loop over population evaluating individuals and summing population fitness
+
+        // Linear
         for (Individual individual : population.getIndividuals()) {
-            populationFitness += this.calcFitness(individual, products, workers, depot);
+            populationFitness += this.calcFitness(individual, products, vehicles, depot);
         }
-        
+
+        // Stream
+        // Arrays.stream(population.getIndividuals()).forEach(ind -> {
+        //     this.calcFitness(ind, products, vehicles, depot);
+        // });
+        // for (Individual individual : population.getIndividuals()){
+        //     populationFitness += individual.getFitness();
+        // }
+
+        // Threads
+        // ExecutorService threadPool = Executors.newFixedThreadPool(population.size());
+        // for(int i = 0; i < population.size(); i++){
+        //     threadPool.submit(new Runnable (){
+        //         public void run() {
+        //             calcFitness(population.getIndividual(i), products, vehicles, depot);
+        //         }
+        //     });
+        // }
+
         double avgFitness = populationFitness / population.size();
         population.setPopulationFitness(avgFitness);
     }
@@ -133,9 +158,10 @@ public class GeneticAlgorithm {
      * We use ordered crossover for the first part of the chromosome so the set of 
      * destinations in each individual remains the same (no repeated nodes)
      * 
-     * For the second part part, we assume the array of workers is ordered by type
+     * For the second part part, we assume the array of vehicles is ordered by type
      * therefore for each type we use asexual single point crossover so there's no
      * risk of assigning more orders than a worker can carry
+     * 
 	 * 
 	 * @param population
      * @param vehicles
@@ -210,9 +236,9 @@ public class GeneticAlgorithm {
                 
                 /**
                  * Second part of the chromosome using single point asexual crossover for
-                 * each type of worker (differentiaded with its capacity)
+                 * each type of vehicle (differentiaded with its capacity)
                  * 
-                 * First find the point where there's the change of worker type
+                 * First find the point where there's the change of vehicle type
                  */
                 
                 int crossPoint = (int) Math.random() * separationPoint;

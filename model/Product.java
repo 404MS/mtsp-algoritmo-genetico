@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * A simple abstraction of a destination. This class maintains Cartesian coordinates
@@ -10,9 +10,11 @@ import java.util.Date;
  *
  */
 public class Product {
+	private int id;
 	private int x;
 	private int y;
-	private Date deadline;
+	private LocalDateTime deadline;
+	private boolean isLast;
 
 	public Product (Product p){
 		this.x = p.getX();
@@ -25,10 +27,12 @@ public class Product {
 		this.y = y;
 	}
 
-	public Product(int x, int y, Date deadline) {
+	public Product(int id, int x, int y, LocalDateTime deadline, boolean isLast) {
+		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.deadline = deadline;
+		this.isLast = isLast;
 	}
 
 	/**
@@ -50,6 +54,14 @@ public class Product {
 		return distance;
 	}
 
+	public boolean isLast() {
+		return this.isLast;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
 	public int getX() {
 		return this.x;
 	}
@@ -58,8 +70,14 @@ public class Product {
 		return this.y;
 	}
 
-	public Date getDeadline() {
+	public LocalDateTime getDeadline() {
 		return this.deadline;
+	}
+
+	public String toString() {
+		String prod = "";
+		prod += this.id + ":  (" + this.x + "," + this.y + ") " + this.deadline + " - " + this.isLast;
+		return prod;
 	}
 
 }

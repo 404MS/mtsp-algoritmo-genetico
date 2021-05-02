@@ -9,10 +9,15 @@ import model.Vehicle;
 public class Individual {
 	
 	/**
-	 * In this case, the chromosome is an array of integers rather than a string.
-	 * It'll be a two part chromosome of length n + m. First n genes 
-	 * represent the visiting permutation for the salesmen. The remaining m genes 
-	 * represent the number of cities for each salesman to visit.
+	 * In this case, the chromosome is an array of integers
+	 * It'll be a three part chromosome of length n + m + m
+	 * 
+	 * First part: represents each product to be sent
+	 * Second part: represents each vehicle, cointains how many consecutive products it will carry
+	 * Third part: represents which worker will drive each vehicle
+	 * 
+	 * @author ms
+	 * 
 	 */
 	private int[] chromosome;
 	private double fitness = -1;
@@ -33,20 +38,17 @@ public class Individual {
 	 * 
 	 * @param numDestinations
 	 *            The number of destinations
-	 * @param numWorkers
-	 * 						The number of workers/salesmen
-	 * @param workers
+	 * @param numVehicles
+	 * 						The number of vehicles
+	 * @param vehicles
 	 * 						Array of workers associated with individual
 	 */
-	public Individual(int numDestinations, int numWorkers, ArrayList<Vehicle> workers) {
+	public Individual(int numDestinations, int numVehicles, ArrayList<Vehicle> vehicles) {
 		// Create random individual
 		int[] individual;
-		individual = new int[numDestinations + numWorkers];
+		individual = new int[numDestinations + numVehicles];
 		
 		/**
-		 * In this case, we can no longer simply pick 0s and 1s -- we need to
-		 * use every destination and salesman index available.
-		 * 
 		 * First, generate random permutation of destinations
 		 * Then, random valid sequence of integers with total sum n
 		 * where each one is less or equal to its corresponding worker's capacity
@@ -59,7 +61,7 @@ public class Individual {
 		java.util.Collections.shuffle(destinations);
 
 		List <Integer> salesmanToDestinations = new ArrayList<Integer>();
-		for(int i = 0; i < numWorkers; i++) {
+		for(int i = 0; i < numVehicles; i++) {
 			salesmanToDestinations.add(0);
 		}
 
@@ -67,10 +69,10 @@ public class Individual {
 
 		for(int i=0; i < numDestinations; i++){
 			Random r = new Random();
-			randomWorker = r.nextInt(numWorkers);
+			randomWorker = r.nextInt(numVehicles);
 			while(true){
-				if(salesmanToDestinations.get(randomWorker) == workers.get(randomWorker).getCapacity()) {
-					if(randomWorker == numWorkers-1)	randomWorker = -1;
+				if(salesmanToDestinations.get(randomWorker) == vehicles.get(randomWorker).getCapacity()) {
+					if(randomWorker == numVehicles-1)	randomWorker = -1;
 					randomWorker++;
 				}
 				else {
@@ -83,7 +85,7 @@ public class Individual {
 		for (int gene = 0; gene < numDestinations; gene++) {
 			individual[gene] = destinations.get(gene);
 		}
-		for (int gene = numDestinations, i = 0; gene < numWorkers + numDestinations; gene++, i++) {
+		for (int gene = numDestinations, i = 0; gene < numVehicles + numDestinations; gene++, i++) {
 			individual[gene] = salesmanToDestinations.get(i);
 		}
 		
