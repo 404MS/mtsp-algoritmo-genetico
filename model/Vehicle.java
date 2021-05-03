@@ -15,6 +15,7 @@ public class Vehicle {
   private int capacity;
   private int speed;
   private int costPerKm;
+  private int type;  // 0 = bike, 1 = car
 
 	/**
 	 * Initialize Worker
@@ -25,17 +26,25 @@ public class Vehicle {
 	 *            average speed in km/h
    * @param ck
 	 *            cost per km
+   * @param t
+   *            type: 0 for bike, 1 for car
 	 */
-  public Vehicle(int c, int s, int ck) {
+  public Vehicle(int c, int s, int ck, int t) {
     this.capacity = c;
     this.speed = s;
     this.costPerKm = ck;
+    this.type = t;
   }
 
   public Vehicle(Vehicle w){
     this.capacity = w.getCapacity();
     this.speed = w.getSpeed();
     this.costPerKm = w.getCostPerKm();
+    this.type = w.getType();
+  }
+
+  public int getType() {
+    return this.type;
   }
 
   public int getCostPerKm() {

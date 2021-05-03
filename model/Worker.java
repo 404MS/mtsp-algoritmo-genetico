@@ -26,6 +26,12 @@ public class Worker {
     this.overtime = 0;
   }
 
+  public Worker(Worker w){
+    this.id = w.getId();
+    this.hadBreak = w.hadBreak();
+    this.overtime = w.getOvertime();
+  }
+
   public void addOvertime(double e){
     this.overtime += e;
   }

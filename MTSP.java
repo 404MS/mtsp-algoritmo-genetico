@@ -44,6 +44,10 @@ public class MTSP {
 	public static void main(String[] args) {
 		
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+		/**
+		 * HARD RESTRICTIONS
+		 * At least as many workers as vehicles
+		 */
 
 		// Cost parameters
 		int overtimeBike = 8;
@@ -53,10 +57,12 @@ public class MTSP {
 		// Time and shift settings
 		LocalDateTime curTime = LocalDateTime.now();
 
-		TimeRange shift = new TimeRange(22, 6);
-		TimeRange breakRange = new TimeRange(18, 20);
+		TimeRange shift = new TimeRange(22, LocalDate.now(), 6, LocalDate.now().plusDays(1));
+		TimeRange breakRange = new TimeRange(4, LocalDate.now().plusDays(1), 6, LocalDate.now().plusDays(1));
 
+		System.out.println();
 		System.out.println("Starting time: "+dateFormat.format(curTime));
+		System.out.println();
 
 		// Random delivery times
 		LocalDate from = LocalDate.of(2021, 4, 30);
@@ -69,23 +75,23 @@ public class MTSP {
 
 		// Create vehicles
 		ArrayList<Vehicle> vehicles = new ArrayList<Vehicle>();
-		for (int i = 0; i < 3; i++){
-			vehicles.add(new Vehicle(4, 60,3));
+		for (int i = 0; i < 40; i++){
+			vehicles.add(new Vehicle(4, 60, 3, 0));
 		}
-		for (int i = 0; i < 2; i++){
-			vehicles.add(new Vehicle(25, 30, 5));
+		for (int i = 0; i < 20; i++){
+			vehicles.add(new Vehicle(25, 30, 5, 1));
 		}
 		int numVehicles = vehicles.size();
 
 		// Create workers (at least as many workers as vehicles)
 		ArrayList<Worker> workers = new ArrayList<>();
-		for(int i = 0 ; i < 15; i++){
+		for(int i = 0 ; i < 60; i++){
 			Random r = new Random();
 			workers.add(new Worker(i, r.nextBoolean()));
 		}
 
 		// Create products/destinations
-		int numProducts = 5;
+		int numProducts = 100;
 		ArrayList<Product> products = new ArrayList<>();
 		
 		// Loop to create random locations
@@ -138,50 +144,42 @@ public class MTSP {
 	 	Population population = ga.initPopulation(numSelectedProducts, numVehicles, vehicles, workers);
 	
 	 	// Evaluate population
-//	 	ga.evalPopulation(population, selectedProducts, vehicles, depot);
+	 	ga.evalPopulation(population, selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
 
-	// 	Routes startRoute = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
-	// 	System.out.println("Start Cost: " + startRoute.getCost());
+	 	Routes startRoute = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
+	 	System.out.println("Start Cost: " + startRoute.getCost());
 
-		// Print population
-		System.out.println("Initial population");
-		for (int i = 0; i < population.size(); i++) {
-			System.out.println(population.getIndividual(i));
-		}
+		// Keep track of current generation
+		int generation = 1;
 
-	// 	// Keep track of current generation
-	// 	int generation = 1;
-
-	// 	// Start evolution loop
-	// 	while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
-	// 		// Print fittest individual from population
-	// 		Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
-	// 		if(generation % 1000 == 0){
-	// 			System.out.println("G"+generation+" Best cost: " + routes.getCost());
-	// 			System.out.printf("G"+generation+" Best chromosome: ");
-	// 			System.out.println(population.getFittest(0));
-	// 		}
+		// Start evolution loop
+		while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
+			// Print fittest individual from population
+			Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
+			if(generation % 1000 == 0){
+				System.out.println("G"+generation+" Best cost: " + routes.getCost());
+			}
 			
-	// 		// Apply crossover
-	// 		population = ga.crossoverPopulation(population, vehicles);
+			// Apply crossover
+			population = ga.crossoverPopulation(population, vehicles, workers);
 
-	// 		// Apply mutation
-	// 		//population = ga.mutatePopulation(population);
+			// Apply mutation
+			//population = ga.mutatePopulation(population);
 
-	// 		// Evaluate population
-	// 		ga.evalPopulation(population, selectedProducts, vehicles,depot);
+			// Evaluate population
+			ga.evalPopulation(population, selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
 
-	// 		// Increment the current generation
-	// 		generation++;
-	// 	}
-	// 	final long endTime = System.currentTimeMillis();
-	// 	System.out.println();
-	// 	System.out.println("Total execution time: " + (endTime - startTime));
-	// 	System.out.println();
+			// Increment the current generation
+			generation++;
+		}
+		final long endTime = System.currentTimeMillis();
+		System.out.println();
+		System.out.println("Total execution time: " + (endTime - startTime));
+		System.out.println();
 
-	// 	System.out.println("Stopped after " + maxGenerations + " generations.");
-	// 	Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, depot);
-	// 	System.out.println("Best cost: " + routes.getCost());
-	// 	routes.printRoutes();
+		System.out.println("Stopped after " + maxGenerations + " generations.");
+		Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
+		System.out.println("Best cost: " + routes.getCost());
+		routes.printRoutes();
 	 }
 }

@@ -15,7 +15,8 @@
       "name": "Launch MTSP",
       "request": "launch",
       "mainClass": "MTSP",
-      "projectName": "algoritmo-genetico_af19c4ba"
+      "projectName": "algoritmo-genetico_3a9bdfc4",
+      "args": "> out.txt"
     }
   ]
 }

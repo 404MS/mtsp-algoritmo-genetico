@@ -203,6 +203,13 @@ public class Individual {
 		return false;
 	}
 
-
+	public boolean containsWorker(int gene, int n, int m){
+		for (int i = n+m; i < n+m+m; i++) {
+			if (this.chromosome[i] == gene) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }
