@@ -38,20 +38,18 @@ public class Product implements Comparable<Product>{
 	/**
 	 * Calculate distance from another destination
 	 * 
-	 * Pythagorean theorem: a^2 + b^2 = c^2
+	 * Using Manhattan distance
 	 * 
 	 * @param product
 	 *            The destination to calculate the distance from
 	 * @return distance The distance from the given destination
 	 */
 	public double distanceFrom(Product product) {
-		// Give difference in x,y
-		double deltaXSq = Math.pow((product.getX() - this.getX()), 2);
-		double deltaYSq = Math.pow((product.getY() - this.getY()), 2);
+		
+		double xDif = Math.abs(this.getX() - product.getX());
+		double yDif = Math.abs(this.getY() - product.getY());
 
-		// Calculate shortest path
-		double distance = Math.sqrt(Math.abs(deltaXSq + deltaYSq));
-		return distance;
+		return xDif + yDif;
 	}
 
 	public boolean isLast() {
