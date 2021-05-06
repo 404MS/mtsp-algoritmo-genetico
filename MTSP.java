@@ -96,10 +96,11 @@ public class MTSP {
     }
 
     // Create products/destinations
-    int numProducts = 100;
+    
     ArrayList<Product> products = new ArrayList<>();
     
     // Loop to create random locations
+    // int numProducts = 100;
     // for (int i = 0; i < numProducts; i++) {
     // 	Random r = new Random();
     // 	// Generate x,y position
@@ -116,7 +117,7 @@ public class MTSP {
     
     // Read input products
     try {
-      File myObj = new File("input-space-delimeted.prn");
+      File myObj = new File("input-100.prn");
       Scanner myReader = new Scanner(myObj);
       int pid=0;
       while (myReader.hasNext()) {
@@ -163,10 +164,11 @@ public class MTSP {
      * Repeat 40 times
      */
     
-     final long startTime = System.currentTimeMillis();
+     
 
     int c = 0;
     while(c < 40) {
+      final long startTime = System.currentTimeMillis();
       // Initial GA
       GeneticAlgorithm ga = new GeneticAlgorithm(100, 0.001, 0.8, 1, 5);
 
@@ -194,7 +196,7 @@ public class MTSP {
         population = ga.crossoverPopulation(population, vehicles, workers);
 
         // Apply mutation
-        //population = ga.mutatePopulation(population);
+        population = ga.mutatePopulation(population, selectedProducts.size(), vehicles.size());
 
         // Evaluate population
         ga.evalPopulation(population, selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
@@ -203,19 +205,23 @@ public class MTSP {
         generation++;
       }
       Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
-      System.out.println(routes.getCost());
+      // System.out.println(routes.getCost());
+      
 
+      final long endTime = System.currentTimeMillis();
+      
+      System.out.println(endTime - startTime);
+      // System.out.println("Stopped after " + maxGenerations + " generations.");
+      // System.out.println("Best cost: " + routes.getCost());
+      // routes.printRoutes();
       c++;
     }
 
-    final long endTime = System.currentTimeMillis();
+    
     // System.out.println();
     // System.out.println("Total execution time: " + (endTime - startTime));
     // System.out.println();
 
-    // System.out.println("Stopped after " + maxGenerations + " generations.");
-    // Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
-    // System.out.println("Best cost: " + routes.getCost());
-    // routes.printRoutes();
+
    }
 }

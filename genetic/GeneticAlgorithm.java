@@ -314,9 +314,11 @@ public class GeneticAlgorithm {
    * @param population The population to apply mutation to
    * @return The mutated population
    */
-  public Population mutatePopulation(Population population) {
+  public Population mutatePopulation(Population population, int numProducts, int numVehicles) {
     // Initialize new population
     Population newPopulation = new Population(this.populationSize);
+    newPopulation.setNumDestinations(numProducts);
+    newPopulation.setNumVehicles(numVehicles);
 
     int n = population.getNumDestinations();
     int m = population.getNumVehicles();
@@ -352,20 +354,20 @@ public class GeneticAlgorithm {
          * Apply mutation to second part of the chromosome
          */
         // Loop over individual's genes
-        for (int geneIndex = n; geneIndex < n + m; geneIndex++) {
+        // for (int geneIndex = n; geneIndex < n + m; geneIndex++) {
 
-          // Does this gene need mutation?
-          if (this.mutationRate > Math.random()) {
-            // Get new gene position
-            int newGenePos = (int) (n + (Math.random() * (m + n)));
-            // Get genes to swap
-            int gene1 = individual.getGene(newGenePos);
-            int gene2 = individual.getGene(geneIndex);
-            // Swap genes
-            individual.setGene(geneIndex, gene1);
-            individual.setGene(newGenePos, gene2);
-          }
-        }
+        //   // Does this gene need mutation?
+        //   if (this.mutationRate > Math.random()) {
+        //     // Get new gene position
+        //     int newGenePos = (int) (n + (Math.random() * (m + n)));
+        //     // Get genes to swap
+        //     int gene1 = individual.getGene(newGenePos);
+        //     int gene2 = individual.getGene(geneIndex);
+        //     // Swap genes
+        //     individual.setGene(geneIndex, gene1);
+        //     individual.setGene(newGenePos, gene2);
+        //   }
+        // }
       }
 
       // Add individual to population
