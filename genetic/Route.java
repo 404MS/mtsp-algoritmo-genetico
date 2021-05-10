@@ -166,12 +166,13 @@ public class Route {
 		// Consider break range -> can change start/end time
 		int hours = (int) this.getTime();
 		int minutes = (int) Math.round((this.getTime() - hours) * 60);
+		this.endTime = this.startTime;
 		this.endTime = this.startTime.plusHours(hours).plusMinutes(minutes);
-
+		
 		if(!worker.hadBreak() && !breakRange.isPastRange(this.startTime)){
 			TimeRange endRange = new TimeRange(breakRange.getStart(), breakRange.getEnd().minusHours(1));
-			if(!endRange.isPastRange(endTime)){
-				this.startTime = breakRange.getEnd();
+			if(endRange.isPastRange(endTime)){
+				this.startTime = breakRange.getStart().plusHours(1);
 				this.endTime = this.startTime.plusHours(hours).plusMinutes(minutes);
 			}	
 		}
@@ -193,10 +194,11 @@ public class Route {
 			aTime = aTime.plusHours((long)aHours).plusMinutes((long)aMinutes);
 			if(aTime.isAfter(this.route[i].getDeadline())){
 				long differenceInMin = ChronoUnit.MINUTES.between(this.route[i].getDeadline(), aTime);
-				int hoursDiff = (int) Math.ceil ((differenceInMin / 60));
+				int hoursDiff = (int) Math.ceil ((double)differenceInMin / 60);
 				lateCost += hoursDiff * lateDeliveryPenalty;
 			}
 		}
+		//System.out.println("Calc cost " + distanceCost + " "+ otCost + " " + lateCost);
 
 		this.cost = distanceCost + otCost + lateCost;
 

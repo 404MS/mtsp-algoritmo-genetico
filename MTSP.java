@@ -167,10 +167,10 @@ public class MTSP {
      
 
     int c = 0;
-    while(c < 40) {
+    while(c < 1) {
       final long startTime = System.currentTimeMillis();
       // Initial GA
-      GeneticAlgorithm ga = new GeneticAlgorithm(100, 0.001, 0.8, 1, 5);
+      GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.001, 0.8, 1, 5);
 
       // Initialize population
       Population population = ga.initPopulation(numSelectedProducts, numVehicles, vehicles, workers);
@@ -210,10 +210,11 @@ public class MTSP {
 
       final long endTime = System.currentTimeMillis();
       
-      System.out.println(endTime - startTime);
-      // System.out.println("Stopped after " + maxGenerations + " generations.");
-      // System.out.println("Best cost: " + routes.getCost());
-      // routes.printRoutes();
+      //System.out.println(endTime - startTime);
+      System.out.println("Stopped after " + maxGenerations + " generations.");
+      System.out.println("Best cost: " + routes.getCost());
+      System.out.println(population.getFittest(0));
+      routes.printRoutes();
       c++;
     }
 
