@@ -117,7 +117,7 @@ public class MTSP {
     
     // Read input products
     try {
-      File myObj = new File("input-100.prn");
+      File myObj = new File("input-500.prn");
       Scanner myReader = new Scanner(myObj);
       int pid=0;
       while (myReader.hasNext()) {
@@ -167,7 +167,8 @@ public class MTSP {
      
 
     int c = 0;
-    while(c < 1) {
+    System.out.println("costos" + "," + "tiempos");
+    while(c < 40) {
       final long startTime = System.currentTimeMillis();
       // Initial GA
       GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.001, 0.8, 1, 5);
@@ -205,16 +206,17 @@ public class MTSP {
         generation++;
       }
       Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
-      // System.out.println(routes.getCost());
+      // System.out.println();
       
 
       final long endTime = System.currentTimeMillis();
       
-      //System.out.println(endTime - startTime);
-      System.out.println("Stopped after " + maxGenerations + " generations.");
-      System.out.println("Best cost: " + routes.getCost());
-      System.out.println(population.getFittest(0));
-      routes.printRoutes();
+      System.out.println(routes.getCost() + "," + (endTime - startTime));
+
+      // System.out.println("Stopped after " + maxGenerations + " generations.");
+      // System.out.println("Best cost: " + routes.getCost());
+      // System.out.println(population.getFittest(0));
+      // routes.printRoutes();
       c++;
     }
 

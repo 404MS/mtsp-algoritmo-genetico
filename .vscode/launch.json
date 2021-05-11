@@ -16,7 +16,7 @@
       "request": "launch",
       "mainClass": "MTSP",
       "projectName": "algoritmo-genetico_3a9bdfc4",
-      "args": "> out.txt"
+      "args": "> resultados-genetico-500.csv"
     }
   ]
 }
