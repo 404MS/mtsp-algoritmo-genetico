@@ -1,20 +1,26 @@
 Stopped after 10000 generations.
-Best cost: 2086.0
-13,14,12,9,19,1,4,3,0,18,16,10,5,11,6,7,8,15,17,2,1,2,1,0,2,0,1,0,0,0,0,0,1,0,0,0,1,0,1,0,1,0,0,2,0,0,1,1,0,0,0,0,0,1,1,0,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,22,21,20,54,5,55,29,53,28,38,32,19,33,43,0,40,56,6,51,45,17,2,44,7,58,59,23,9,16,4,52,41,8,34,11,39,49,10,24,46,36,1,18,13,14,31,27,15,25,12,3,50,48,35,30,47,57,37,42,26,
+Best cost: 1981.0
+Penalty cost: 0.0
+Overtime cost: 0.0
+Distance cost: 1981.0
+
+Chromosome:
+19,10,3,16,14,7,11,6,9,4,2,18,17,8,0,13,15,5,12,1,1,1,0,0,2,0,2,1,2,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,2,0,2,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,33,31,41,54,5,29,40,30,4,12,21,55,44,10,25,48,0,8,46,23,42,9,36,11,19,15,6,51,58,59,24,38,2,52,16,18,34,43,7,50,14,20,57,47,35,3,32,13,22,39,27,37,1,17,28,26,45,53,49,56,
+
 Vehicle 0
-Worker 22
-(21,15)
-ETA: 2021/05/04 08:39:00
+Worker 33
+(22,17)
+ETA: 2021/05/04 08:36:00
 
 Vehicle 1
-Worker 21
-(30,67) -> (18,66)
-ETA: 2021/05/04 09:05:00
+Worker 31
+(40,28)
+ETA: 2021/05/04 08:07:00
 
 Vehicle 2
-Worker 20
-(69,45)
-ETA: 2021/05/04 08:39:00
+Worker 41
+no destinations
+ETA: 2021/05/04 08:00:00
 
 Vehicle 3
 Worker 54
@@ -23,281 +29,281 @@ ETA: 2021/05/04 08:00:00
 
 Vehicle 4
 Worker 5
-(37,60) -> (9,63)
-ETA: 2021/05/04 09:09:00
+(31,1) -> (1,7)
+ETA: 2021/05/04 09:19:00
 
 Vehicle 5
-Worker 55
+Worker 29
 no destinations
 ETA: 2021/05/04 08:00:00
 
 Vehicle 6
-Worker 29
-(45,3)
-ETA: 2021/05/04 08:27:00
+Worker 40
+(48,44) -> (50,47)
+ETA: 2021/05/04 08:22:00
 
 Vehicle 7
-Worker 53
-no destinations
-ETA: 2021/05/04 08:00:00
+Worker 30
+(65,4)
+ETA: 2021/05/04 08:46:00
 
 Vehicle 8
-Worker 28
-no destinations
-ETA: 2021/05/04 08:00:00
+Worker 4
+(69,24) -> (70,5)
+ETA: 2021/05/04 08:50:00
 
 Vehicle 9
-Worker 38
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 10
-Worker 32
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 11
-Worker 19
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 12
-Worker 33
-(9,35)
-ETA: 2021/05/04 08:41:00
-
-Vehicle 13
-Worker 43
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 14
-Worker 0
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 15
-Worker 40
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 16
-Worker 56
-(28,22)
-ETA: 2021/05/04 08:25:00
-
-Vehicle 17
-Worker 6
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 18
-Worker 51
-(26,55)
-ETA: 2021/05/04 08:44:00
-
-Vehicle 19
-Worker 45
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 20
-Worker 17
-(55,55)
-ETA: 2021/05/04 08:35:00
-
-Vehicle 21
-Worker 2
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 22
-Worker 44
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 23
-Worker 7
-(25,41) -> (2,67)
-ETA: 2021/05/04 09:20:00
-
-Vehicle 24
-Worker 58
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 25
-Worker 59
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 26
-Worker 23
-(67,20)
-ETA: 2021/05/04 08:32:00
-
-Vehicle 27
-Worker 9
-(27,31)
-ETA: 2021/05/04 08:19:00
-
-Vehicle 28
-Worker 16
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 29
-Worker 4
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 30
-Worker 52
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 31
-Worker 41
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 32
-Worker 8
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 33
-Worker 34
-(51,4)
-ETA: 2021/05/04 08:32:00
-
-Vehicle 34
-Worker 11
-(15,47)
-ETA: 2021/05/04 08:47:00
-
-Vehicle 35
-Worker 39
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 36
-Worker 49
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 37
-Worker 10
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 38
-Worker 24
-(61,41)
-ETA: 2021/05/04 08:27:00
-
-Vehicle 39
-Worker 46
-(69,28)
-ETA: 2021/05/04 08:26:00
-
-Vehicle 40
-Worker 36
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 41
-Worker 1
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 42
-Worker 18
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 43
-Worker 13
-(39,45)
-ETA: 2021/05/04 08:42:00
-
-Vehicle 44
-Worker 14
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 45
-Worker 31
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 46
-Worker 27
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 47
-Worker 15
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 48
-Worker 25
-no destinations
-ETA: 2021/05/04 08:00:00
-
-Vehicle 49
 Worker 12
 no destinations
 ETA: 2021/05/04 08:00:00
 
-Vehicle 50
-Worker 3
+Vehicle 10
+Worker 21
 no destinations
 ETA: 2021/05/04 08:00:00
 
-Vehicle 51
-Worker 50
+Vehicle 11
+Worker 55
 no destinations
 ETA: 2021/05/04 08:00:00
 
-Vehicle 52
+Vehicle 12
+Worker 44
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 13
+Worker 10
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 14
+Worker 25
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 15
 Worker 48
 no destinations
 ETA: 2021/05/04 08:00:00
 
-Vehicle 53
-Worker 35
+Vehicle 16
+Worker 0
 no destinations
 ETA: 2021/05/04 08:00:00
 
-Vehicle 54
-Worker 30
+Vehicle 17
+Worker 8
 no destinations
 ETA: 2021/05/04 08:00:00
 
-Vehicle 55
-Worker 47
+Vehicle 18
+Worker 46
 no destinations
 ETA: 2021/05/04 08:00:00
 
-Vehicle 56
+Vehicle 19
+Worker 23
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 20
+Worker 42
+(42,18)
+ETA: 2021/05/04 08:15:00
+
+Vehicle 21
+Worker 9
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 22
+Worker 36
+(54,3)
+ETA: 2021/05/04 08:36:00
+
+Vehicle 23
+Worker 11
+(64,3)
+ETA: 2021/05/04 08:46:00
+
+Vehicle 24
+Worker 19
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 25
+Worker 15
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 26
+Worker 6
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 27
+Worker 51
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 28
+Worker 58
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 29
+Worker 59
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 30
+Worker 24
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 31
+Worker 38
+(0,27) -> (14,3)
+ETA: 2021/05/04 09:26:00
+
+Vehicle 32
+Worker 2
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 33
+Worker 52
+(14,37) -> (16,47)
+ETA: 2021/05/04 08:50:00
+
+Vehicle 34
+Worker 16
+(58,3)
+ETA: 2021/05/04 08:40:00
+
+Vehicle 35
+Worker 18
+(25,9)
+ETA: 2021/05/04 08:41:00
+
+Vehicle 36
+Worker 34
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 37
+Worker 43
+(63,10)
+ETA: 2021/05/04 08:38:00
+
+Vehicle 38
+Worker 7
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 39
+Worker 50
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 40
+Worker 14
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 41
+Worker 20
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 42
 Worker 57
 no destinations
 ETA: 2021/05/04 08:00:00
 
-Vehicle 57
+Vehicle 43
+Worker 47
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 44
+Worker 35
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 45
+Worker 3
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 46
+Worker 32
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 47
+Worker 13
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 48
+Worker 22
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 49
+Worker 39
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 50
+Worker 27
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 51
 Worker 37
 no destinations
 ETA: 2021/05/04 08:00:00
 
+Vehicle 52
+Worker 1
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 53
+Worker 17
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 54
+Worker 28
+(62,6)
+ETA: 2021/05/04 09:22:00
+
+Vehicle 55
+Worker 26
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 56
+Worker 45
+no destinations
+ETA: 2021/05/04 08:00:00
+
+Vehicle 57
+Worker 53
+no destinations
+ETA: 2021/05/04 08:00:00
+
 Vehicle 58
-Worker 42
+Worker 49
 no destinations
 ETA: 2021/05/04 08:00:00
 
 Vehicle 59
-Worker 26
+Worker 56
 no destinations
 ETA: 2021/05/04 08:00:00
 

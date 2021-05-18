@@ -14,6 +14,9 @@ public class Routes {
   private double totalDistance;
   private double totalTime;
   private double totalCost;
+  private double totalOvertimeCost;
+  private double totalDistanceCost;
+  private double totalPenaltyCost;
   
   public Routes(Individual individual, ArrayList<Product> products, ArrayList<Vehicle> vehicles, ArrayList<Worker>workers, Product depot, TimeRange shift, TimeRange breakRange, LocalDateTime curTime, int overtimeBike, int overtimeCar, int lateDeliveryPenalty){
 
@@ -21,7 +24,7 @@ public class Routes {
     int n = products.size();
     int m = vehicles.size();
 
-    double totalDistance = 0, totalTime = 0, totalCost = 0;
+    double totalDistance = 0, totalTime = 0, totalCost = 0, totalPenaltyCost = 0, totalOvertimeCost = 0, totalDistanceCost = 0;
 
     // Loop the individual's chromosome to generate m Routes
     int chromosome[] =  individual.getChromosome();
@@ -49,12 +52,18 @@ public class Routes {
         totalDistance += routes.get(j).getDistance();
         totalTime += routes.get(j).getTime();
         totalCost += routes.get(j).getCost();
+        totalPenaltyCost += routes.get(j).getPenaltyCost();
+        totalOvertimeCost += routes.get(j).getOvertimeCost();
+        totalDistanceCost += routes.get(j).getDistanceCost();
       }
     }
 
     this.totalDistance = totalDistance;
     this.totalTime = totalTime;
     this.totalCost = totalCost;
+    this.totalPenaltyCost = totalPenaltyCost;
+    this.totalOvertimeCost = totalOvertimeCost;
+    this.totalDistanceCost = totalDistanceCost;
   }
 
   public double getDistance() {
@@ -63,6 +72,18 @@ public class Routes {
 
   public double getCost() {
     return this.totalCost;
+  }
+
+  public double getPenaltyCost(){
+    return this.totalPenaltyCost;
+  }
+
+  public double getOvertimeCost(){
+    return this.totalOvertimeCost;
+  }
+
+  public double getDistanceCost(){
+    return this.totalDistanceCost;
   }
 
   public double getTime(){

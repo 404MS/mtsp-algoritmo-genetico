@@ -41,10 +41,10 @@ public class TimeRange {
    * @return difference in hours between date and the end of the timerange
    */
   public double hoursPastRange(LocalDateTime date) {
-    long minutes = (long) ChronoUnit.SECONDS.between(this.end, date);
+    long minutes = (long) ChronoUnit.MINUTES.between(this.end, date);
     long hours = minutes / 60;
     minutes = minutes % 60;
-    return (double) hours + (double) minutes / 60;
+    return (double) hours + (double) minutes / 60.0;
   }
 
   public LocalDateTime getStart(){

@@ -70,9 +70,9 @@ public class MTSP {
     // System.out.println();
 
     // Random delivery deadlines
-    LocalDate from = LocalDate.of(2021, 4, 30);
-    LocalDate to = LocalDate.of(2021, 5, 4);
-    long days = from.until(to, ChronoUnit.DAYS);
+    // LocalDate from = LocalDate.of(2021, 4, 30);
+    // LocalDate to = LocalDate.of(2021, 5, 4);
+    // long days = from.until(to, ChronoUnit.DAYS);
 
     // Create depot
     int depotX = 45, depotY = 30;
@@ -91,7 +91,7 @@ public class MTSP {
     // Create workers (at least as many workers as vehicles)
     ArrayList<Worker> workers = new ArrayList<>();
     for(int i = 0 ; i < 60; i++){
-      Random r = new Random();
+      //Random r = new Random();
       workers.add(new Worker(i, false));
     }
 
@@ -157,17 +157,15 @@ public class MTSP {
       numSelectedProducts++;
     }
 
-     // System.out.println("Number of products to send: " + numSelectedProducts);
+    // System.out.println("Number of products to send: " + numSelectedProducts);
 
     /**
      * Begins Genetic Algorithm
      * Repeat 40 times
      */
-    
-     
 
     int c = 0;
-    //System.out.println("costos" + "," + "tiempos");
+    //System.out.println("costos,tiempos,penalidades,costos-horas-extra,costos-distancia");
     while(c < 1) {
       final long startTime = System.currentTimeMillis();
       // Initial GA
@@ -179,20 +177,11 @@ public class MTSP {
       // Evaluate population
       ga.evalPopulation(population, selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
 
-      // Routes startRoute = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
-      // System.out.println("Start Cost: " + startRoute.getCost());
-
       // Keep track of current generation
       int generation = 1;
 
       // Start evolution loop
       while (ga.isTerminationConditionMet(generation, maxGenerations) == false) {
-        // Print fittest individual from population
-        // Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
-        // if(generation % 1000 == 0){
-        //   System.out.println("G"+generation+" Best cost: " + routes.getCost());
-        // }
-        
         // Apply crossover
         population = ga.crossoverPopulation(population, vehicles, workers);
 
@@ -206,25 +195,21 @@ public class MTSP {
         generation++;
       }
       Routes routes = new Routes(population.getFittest(0), selectedProducts, vehicles, workers, depot, shift, breakRange, curTime, overtimeBike, overtimeCar, lateDeliveryPenalty);
-      // System.out.println();
       
 
       final long endTime = System.currentTimeMillis();
       
-      //System.out.println(routes.getCost() + "," + (endTime - startTime));
+      //System.out.println(routes.getCost() + "," + (endTime - startTime) + "," + routes.getPenaltyCost()+ "," + routes.getOvertimeCost()+ "," + routes.getDistanceCost());
 
       System.out.println("Stopped after " + maxGenerations + " generations.");
       System.out.println("Best cost: " + routes.getCost());
+      System.out.println("Penalty cost: " + routes.getPenaltyCost());
+      System.out.println("Overtime cost: " + routes.getOvertimeCost());
+      System.out.println("Distance cost: " + routes.getDistanceCost());
+      System.out.println("Chromosome:");
       System.out.println(population.getFittest(0));
       routes.printRoutes();
       c++;
     }
-
-    
-    // System.out.println();
-    // System.out.println("Total execution time: " + (endTime - startTime));
-    // System.out.println();
-
-
    }
 }

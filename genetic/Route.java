@@ -35,6 +35,9 @@ public class Route {
 
 	private double distance;
 	private double cost;
+	private double penaltyCost;
+	private double distanceCost;
+	private double overtimeCost;
 	private double time;
 
 	/**
@@ -179,7 +182,7 @@ public class Route {
 
 		// Get overtime cost
 		double otCost = 0;
-		if(!shift.isWithinRange(endTime)){
+		if(shift.isPastRange(endTime)){
 			otCost = this.otRate * shift.hoursPastRange(endTime);
 		}
 
@@ -201,6 +204,9 @@ public class Route {
 		//System.out.println("Calc cost " + distanceCost + " "+ otCost + " " + lateCost);
 
 		this.cost = distanceCost + otCost + lateCost;
+		this.penaltyCost = lateCost;
+		this.overtimeCost = otCost;
+		this.distanceCost = distanceCost;
 
 		return this.cost;
 	}
@@ -223,6 +229,44 @@ public class Route {
 		this.time = totalTime;
 
 		return totalTime;
+	}
+
+	/**
+	 * Get route late delivery penalty cost
+	 * 
+	 * @return cost The route's total penalty cost
+	 */
+	public double getPenaltyCost(){
+		if (this.penaltyCost > 0) {
+			return this.penaltyCost;
+		}
+		if (this.route == null) {
+			return 0;
+		}
+		this.getCost();
+		return penaltyCost;
+	}
+
+	public double getOvertimeCost(){
+		if (this.overtimeCost > 0) {
+			return this.overtimeCost;
+		}
+		if (this.route == null) {
+			return 0;
+		}
+		this.getCost();
+		return overtimeCost;
+	}
+
+	public double getDistanceCost(){
+		if (this.distanceCost > 0) {
+			return this.distanceCost;
+		}
+		if (this.route == null) {
+			return 0;
+		}
+		this.getCost();
+		return distanceCost;
 	}
 
 	public LocalDateTime getEndTime(){
