@@ -11,8 +11,3 @@ Ejemplo de la estructura del crosmosoma
 
 ![alt text](https://github.com/404MS/mtsp-algoritmo-genetico/blob/master/chromosome-structure.png?raw=true)
 
-
-## Falta
-
-Imlementar operaciones del algoritmo genetico - Crossover, Mutation y calcFitness
-Implementar algoritmo A*
